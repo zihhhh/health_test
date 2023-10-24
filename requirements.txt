@@ -1,0 +1,11 @@
+line-bot-sdk
+flask
+gunicorn
+clarifai==2.4.1
+SpeechRecognition
+requests
+clarifai_grpc==7.9.0
+mysql-connector==2.2.9
+googletrans==4.0.0-rc1
+urllib3
+grpcio
