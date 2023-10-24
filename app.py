@@ -1317,7 +1317,7 @@ def handle_postback(event):
                 line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content.strip()))
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text='新增血壓記錄成功'))
             else:
-                line_bot_api.reply_message(event.reply_token, TextSendMessage(text='新增血壓記錄成功'))    
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text='新增血壓記錄成功'))   
 
             status = 0
         elif status == 3: # water intake
