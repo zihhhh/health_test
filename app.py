@@ -1297,7 +1297,7 @@ def handle_postback(event):
             }
             response = requests.post(config.PHP_SERVER+'mhealth/info/recordInfo.php', data = data)
             print(response.text)
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(text='新增血壓記錄成功'))
+            
            
             #收縮壓<120mmHg 和舒張壓<80mmHg；脈搏60~100
             if sbp>120 or dbp>80 or pulse>100 or pulse<60:
@@ -1315,6 +1315,9 @@ def handle_postback(event):
                 messages=messages)
                 content = response['choices'][0]['message']['content']
                 line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content.strip()))
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text='新增血壓記錄成功'))
+            else:
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text='新增血壓記錄成功'))    
 
             status = 0
         elif status == 3: # water intake
