@@ -1298,6 +1298,24 @@ def handle_postback(event):
             response = requests.post(config.PHP_SERVER+'mhealth/info/recordInfo.php', data = data)
             print(response.text)
             line_bot_api.reply_message(event.reply_token, TextSendMessage(text='新增血壓記錄成功'))
+           
+            #收縮壓<120mmHg 和舒張壓<80mmHg；脈搏60~100
+            if sbp>120 or dbp>80 or pulse>100 or pulse<60:
+                messages = [
+                #賦予人設
+                {'role': 'system', 'content': '你現在是一位醫生，請給予以下身體狀況建議，限200字以內'}, 
+    
+                #提出問題
+                {'role': 'user','content': event.message.text}
+                ]
+                response = openai.ChatCompletion.create(
+                model="gpt-3.5-turbo",
+                #max_tokens=128,
+                temperature=0.5,
+                messages=messages)
+                content = response['choices'][0]['message']['content']
+                line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content.strip()))
+
             status = 0
         elif status == 3: # water intake
             water = event.postback.data # water
