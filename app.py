@@ -47,8 +47,9 @@ import config
 import constant
 import mysql.connector
 import re
-
-
+import openai
+# OPENAI API Key初始化設定
+openai.api_key = os.getenv('OPENAI_API_KEY')
 cnx = mysql.connector.connect(user='user_80956', password='m+c3zHYVaFBSz#w6', host='140.114.88.137', port='3306', database='mhealth_with_line')
 cursor = cnx.cursor()
 
@@ -316,6 +317,11 @@ def handle_text_message(event):
         line_bot_api.reply_message(event.reply_token, ImagemapMsg.newRecord())
     elif text == 'id':
         line_bot_api.reply_message(event.reply_token, TextSendMessage(event.source.user_id))
+    elif text =="身體健康狀況諮詢":
+        line_bot_api.reply_message(event.reply_token, [
+            TextSendMessage(text='請輸入您的身體狀況')
+        ])    
+        status = 20
     elif text == '查詢紀錄': #查訊紀錄
         buttons_template = ButtonsTemplate(title='查詢紀錄', text='query record', actions=[
             PostbackAction(label='健康紀錄總覽', data='/health_record_overview'),
@@ -323,6 +329,7 @@ def handle_text_message(event):
         ])
         template_message = TemplateSendMessage(alt_text='Buttons alt text', template=buttons_template)
         line_bot_api.reply_message(event.reply_token, template_message)
+    
     elif text == '飲食順序':
         line_bot_api.reply_message(event.reply_token, [
             TextSendMessage(text='根據相關研究表明，高GI的食物愈後吃愈能控制血糖的上升\n\n'+
@@ -527,6 +534,23 @@ def handle_text_message(event):
                 line_bot_api.reply_message(event.reply_token, template_message)
             else:
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text='格式錯誤，請重新輸入'))
+        
+        elif status == 20:    
+            messages = [
+                #賦予人設
+                {'role': 'system', 'content': '你現在是一位醫生，請給予以下身體狀況建議'}, 
+    
+                #提出問題
+                {'role': 'user','content': event.message.text}
+                ]
+            response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            max_tokens=128,
+            temperature=0.5,
+            messages=messages)
+            content = response['choices'][0]['message']['content']
+            line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content.strip()))
+        
         elif status == 3: # water intake
             if not isNum(text):
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text='格式錯誤，請重新輸入'))
@@ -792,7 +816,7 @@ def handle_content_message(event):
         print('liff compose:'+imageLiffURI)
 
         # Image path inside Heroku server
-        imageUrl='https://healthtakler-test.onrender.com/'+os.path.join('static', 'tmp', dist_name)
+        imageUrl='https://health-checker-python.herokuapp.com/'+os.path.join('static', 'tmp', dist_name)
         print('imageURL (heroku): ', imageUrl)
         concept_request = service_pb2.PostModelOutputsRequest(
             # This is the model ID of a publicly available Food model.
