@@ -545,7 +545,7 @@ def handle_text_message(event):
                 ]
             response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
-            max_tokens=128,
+            #max_tokens=128,
             temperature=0.5,
             messages=messages)
             content = response['choices'][0]['message']['content']
