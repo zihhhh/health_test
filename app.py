@@ -317,11 +317,18 @@ def handle_text_message(event):
         line_bot_api.reply_message(event.reply_token, ImagemapMsg.newRecord())
     elif text == 'id':
         line_bot_api.reply_message(event.reply_token, TextSendMessage(event.source.user_id))
+    #新功能
     elif text =="身體健康狀況諮詢":
         line_bot_api.reply_message(event.reply_token, [
             TextSendMessage(text='請輸入您的身體狀況')
         ])    
         status = 20
+    elif text =="飲食順序建議":
+            line_bot_api.reply_message(event.reply_token, [
+                TextSendMessage(text='請輸入您欲食用的食物名稱')
+            ])    
+            status = 21
+
     elif text == '查詢紀錄': #查訊紀錄
         buttons_template = ButtonsTemplate(title='查詢紀錄', text='query record', actions=[
             PostbackAction(label='健康紀錄總覽', data='/health_record_overview'),
@@ -534,11 +541,11 @@ def handle_text_message(event):
                 line_bot_api.reply_message(event.reply_token, template_message)
             else:
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text='格式錯誤，請重新輸入'))
-        
+        #新功能
         elif status == 20:    
             messages = [
                 #賦予人設
-                {'role': 'system', 'content': '你現在是一位醫生，請給予以下身體狀況建議'}, 
+                {'role': 'system', 'content': '你現在是一位醫生，請給予以下身體狀況建議，限200字以內'}, 
     
                 #提出問題
                 {'role': 'user','content': event.message.text}
@@ -550,6 +557,21 @@ def handle_text_message(event):
             messages=messages)
             content = response['choices'][0]['message']['content']
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content.strip()))
+        elif status == 21:    
+            messages = [
+                #賦予人設
+                {'role': 'system', 'content': '你是一位營養師，請給予以下食物食用順序的建議，限100字以內'}, 
+    
+                #提出問題
+                {'role': 'user','content': event.message.text}
+                ]
+            response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            #max_tokens=128,
+            temperature=0.5,
+            messages=messages)
+            content = response['choices'][0]['message']['content']
+            line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content.strip()))    
         
         elif status == 3: # water intake
             if not isNum(text):
