@@ -1297,7 +1297,8 @@ def handle_postback(event):
             }
             response = requests.post(config.PHP_SERVER+'mhealth/info/recordInfo.php', data = data)
             print(response.text)
-            ttt= str("舒張壓：",sbp,"舒張壓：",dbp,"脈搏",pulse)
+            ttt= str("舒張壓：",sbp,"舒張壓：",dbp)
+            all=str(ttt,"脈搏",pulse)
            
             #收縮壓<120mmHg 和舒張壓<80mmHg；脈搏60~100
             if sbp>120 or dbp>80 or pulse>100 or pulse<60:
@@ -1306,7 +1307,7 @@ def handle_postback(event):
                 {'role': 'system', 'content': '你現在是一位醫生，請給予以下身體狀況建議，限200字以內'}, 
     
                 #提出問題
-                {'role': 'user','content':  ttt}
+                {'role': 'user','content': all}
                 ]
                 response = openai.ChatCompletion.create(
                 model="gpt-3.5-turbo",
