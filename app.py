@@ -1318,7 +1318,7 @@ def handle_postback(event):
             temperature=0.5,
             messages=messages)
             content = response['choices'][0]['message']['content']
-            line_bot_api.reply_message(event.reply_token,TextSendMessage(text='新增血壓記錄成功\n'+content.strip()))
+            line_bot_api.reply_message(event.reply_token,TextSendMessage(text='新增血壓記錄成功。'+content.strip()))
             #line_bot_api.reply_message(event.reply_token, TextSendMessage(text='新增血壓記錄成功'))
             
 
