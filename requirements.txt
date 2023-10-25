@@ -10,5 +10,4 @@ googletrans==4.0.0-rc1
 urllib3
 grpcio
 openai
-requests==2.28.1
 beautifulsoup4==4.11.1
