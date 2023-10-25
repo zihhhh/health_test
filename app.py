@@ -500,7 +500,7 @@ def handle_text_message(event):
 
     elif text == '健康新知':
         print("hello")
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='已取消'))
+        #line_bot_api.reply_message(event.reply_token, TextSendMessage(text='已取消'))
         url = 'https://www.hpa.gov.tw/Home/Index.aspx'
         response = requests.get(url) 
         soup = BeautifulSoup(response.text, 'lxml')
