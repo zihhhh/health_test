@@ -47,6 +47,8 @@ import config
 import constant
 import mysql.connector
 import re
+import requests
+from bs4 import BeautifulSoup
 import openai
 # OPENAI API Key初始化設定
 openai.api_key = os.getenv('OPENAI_API_KEY')
@@ -328,6 +330,8 @@ def handle_text_message(event):
                 TextSendMessage(text='請輸入您欲食用的食物名稱')
             ])    
             status = 21
+    elif text =="健康新知":  
+            status = 22        
 
     elif text == '查詢紀錄': #查訊紀錄
         buttons_template = ButtonsTemplate(title='查詢紀錄', text='query record', actions=[
@@ -573,7 +577,71 @@ def handle_text_message(event):
             temperature=0.5,
             messages=messages)
             content = response['choices'][0]['message']['content']
-            line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content.strip()))    
+            line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content.strip()))
+        elif status == 22:
+            url = 'https://www.hpa.gov.tw/Home/Index.aspx'
+            response = requests.get(url) 
+            soup = BeautifulSoup(response.text, 'lxml')
+            info_items = soup.find_all('div','newsList newsBlock')
+
+            list_link=[]
+            list_title=[]
+            list_date=[]
+            contents=dict()
+            contents['type']='carousel'
+            bubbles=[]
+
+            for d in info_items:
+                link = d.a['href']
+                link="https://www.hpa.gov.tw"+link
+                list_link.append(link)
+                title = d.a['title']
+                list_title.append(title)
+                date=d.find('span','dateStyle')
+                date=date.text
+                list_date.append(date)
+
+            for x in range(0,4):     
+                bubble = BubbleContainer(
+                                    direction='ltr', 
+                                    body=BoxComponent(  
+                                        layout='vertical',
+                                        contents=[
+                                            TextComponent(text=list_title[x] , weight='bold', size='xl',align='center',wrap=True,maxLines=2),
+                                            
+                                            BoxComponent(
+                                                layout='vertical',
+                                                margin='lg',
+                                                contents=[
+                                                    BoxComponent(
+                                                        layout='baseline',
+                                                        contents=[
+                                                            TextComponent(text=list_date[x], color='#aaaaaa', size='md', align='end',flex=2),
+                                                        ],
+                                                    ),
+                                                ],
+                                            ),
+                                            BoxComponent(  
+                                                layout='horizontal',
+                                        margin='md',
+                                        contents=[
+                                            ButtonComponent(
+                                                style='primary',
+                                                height='sm',
+                                                color='#003060',
+                                                action=URIAction(label='看更多', uri=list_link[x]),
+                                            )
+                                                    
+                                                ]
+                                            )
+                                        ],
+                                    ),
+                                    
+                                )
+                bubbles.append(bubble)
+            contents['contents']=bubbles
+            message =FlexSendMessage(alt_text=name, contents=contents)
+            line_bot_api.reply_message(event.reply_token,message)        
         
         elif status == 3: # water intake
             if not isNum(text):
