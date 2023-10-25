@@ -640,7 +640,7 @@ def handle_text_message(event):
                                 )
                 bubbles.append(bubble)
             contents['contents']=bubbles
-            message =FlexSendMessage(alt_text=name, contents=contents)
+            message =FlexSendMessage(alt_text="news", contents=contents)
             line_bot_api.reply_message(event.reply_token,message)        
         
         elif status == 3: # water intake
