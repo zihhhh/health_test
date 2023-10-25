@@ -1308,7 +1308,7 @@ def handle_postback(event):
                 {'role': 'system', 'content': '你現在是一位醫生，請給予以下身體狀況建議，限200字以內'}, 
     
                 #提出問題
-                {'role': 'user','content': all}
+                {'role': 'user','content': ttt}
                 ]
                 response = openai.ChatCompletion.create(
                 model="gpt-3.5-turbo",
