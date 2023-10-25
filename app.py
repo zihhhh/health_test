@@ -1301,7 +1301,7 @@ def handle_postback(event):
             #all=str(ttt,"脈搏",pulse)
            
             #收縮壓<120mmHg 和舒張壓<80mmHg；脈搏60~100
-            if sbp>120 or dbp>80 or pulse>100 or pulse<60:
+            if int(sbp)>120 or int(dbp)>80 or int(pulse)>100 or int(pulse)<60:
                 print(ttt,"身體狀況異常")
                 messages = [
                 #賦予人設
