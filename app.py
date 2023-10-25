@@ -543,6 +543,7 @@ def handle_text_message(event):
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text='格式錯誤，請重新輸入'))
         #新功能
         elif status == 20:    
+            print("使用chat gpt")
             messages = [
                 #賦予人設
                 {'role': 'system', 'content': '你現在是一位醫生，請給予以下身體狀況建議，限200字以內'}, 
@@ -558,9 +559,10 @@ def handle_text_message(event):
             content = response['choices'][0]['message']['content']
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content.strip()))
         elif status == 21:    
+            print("使用chat gpt")
             messages = [
                 #賦予人設
-                {'role': 'system', 'content': '你是一位營養師，請給予以下食物食用順序的建議，限100字以內'}, 
+                {'role': 'system', 'content': '你是一位營養師，請給予以下食物食用順序的建議，限200字以內'}, 
     
                 #提出問題
                 {'role': 'user','content': event.message.text}
@@ -1302,6 +1304,7 @@ def handle_postback(event):
            
             
             print(ttt)
+            print("使用chat gpt")
             messages = [
                 #賦予人設
                 {'role': 'system', 'content': '你現在是一位醫生，請給予以下身體狀況建議，限200字以內'}, 
@@ -1315,7 +1318,7 @@ def handle_postback(event):
             temperature=0.5,
             messages=messages)
             content = response['choices'][0]['message']['content']
-            line_bot_api.reply_message(event.reply_token,TextSendMessage(text='新增血壓記錄成功'+content.strip()))
+            line_bot_api.reply_message(event.reply_token,TextSendMessage(text='新增血壓記錄成功\n'+content.strip()))
             #line_bot_api.reply_message(event.reply_token, TextSendMessage(text='新增血壓記錄成功'))
             
 
