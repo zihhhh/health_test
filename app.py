@@ -331,7 +331,7 @@ def handle_text_message(event):
             ])    
             status = 21
     elif text =="健康新知":  
-            status = 22        
+        status = 22        
 
     elif text == '查詢紀錄': #查訊紀錄
         buttons_template = ButtonsTemplate(title='查詢紀錄', text='query record', actions=[
@@ -579,24 +579,27 @@ def handle_text_message(event):
             content = response['choices'][0]['message']['content']
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content.strip()))
         elif status == 22:
+            print("hello")
             url = 'https://www.hpa.gov.tw/Home/Index.aspx'
             response = requests.get(url) 
             soup = BeautifulSoup(response.text, 'lxml')
             info_items = soup.find_all('div','newsList newsBlock')
-
+            print("hello2")
             list_link=[]
             list_title=[]
             list_date=[]
             contents=dict()
             contents['type']='carousel'
             bubbles=[]
-
+            print("hello2")
             for d in info_items:
                 link = d.a['href']
                 link="https://www.hpa.gov.tw"+link
                 list_link.append(link)
+                
                 title = d.a['title']
                 list_title.append(title)
+                
                 date=d.find('span','dateStyle')
                 date=date.text
                 list_date.append(date)
@@ -640,7 +643,7 @@ def handle_text_message(event):
                                 )
                 bubbles.append(bubble)
             contents['contents']=bubbles
-            message =FlexSendMessage(alt_text="news", contents=contents)
+            message =FlexSendMessage(alt_text="new", contents=contents)
             line_bot_api.reply_message(event.reply_token,message)        
         
         elif status == 3: # water intake
