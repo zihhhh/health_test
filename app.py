@@ -1302,6 +1302,7 @@ def handle_postback(event):
            
             #收縮壓<120mmHg 和舒張壓<80mmHg；脈搏60~100
             if sbp>120 or dbp>80 or pulse>100 or pulse<60:
+                print(all,"身體狀況異常")
                 messages = [
                 #賦予人設
                 {'role': 'system', 'content': '你現在是一位醫生，請給予以下身體狀況建議，限200字以內'}, 
