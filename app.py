@@ -877,7 +877,7 @@ def aqi(event):
         address=event.message.address.replace('台','臺')
         print(address)
         city_list, site_list ={}, {}
-        
+        msg='找不到空氣品質資訊。'
         try:
             # 2022/12 時氣象局有修改了 API 內容，將部份大小寫混合全改成小寫，因此程式碼也跟著修正
             url = 'https://data.epa.gov.tw/api/v2/aqx_p_432?api_key=e8dd42e6-9b8b-43f8-991e-b3dee723a52d&limit=1000&sort=ImportDate%20desc&format=JSON'
@@ -903,14 +903,15 @@ def aqi(event):
                     elif aqi_val>150 and aqi_val<=200: aqi_status = '對所有族群不健康'
                     elif aqi_val>200 and aqi_val<=300: aqi_status = '非常不健康'
                     else: aqi_status = '危害'
-                    line_bot_api.reply_message(event.reply_token, TextSendMessage(text='空氣品質'+aqi_status+'AQI'+ aqi_val))
+                    msg='空氣品質'+str(aqi_status)+'AQI'+str(aqi_val)
                     break
             for i in site_list:
                 if i in address:  # 如果地址裡包含鄉鎮區域名稱的 key，就直接使用對應的內容
-                    line_bot_api.reply_message(event.reply_token, TextSendMessage(text='空氣品質'+site_list[i]["status"]+'AQI'+ site_list[i]["aqi"]))
+                    msg=='空氣品質'+str(site_list[i]["status"])+'AQI'+ str(site_list[i]["aqi"])
                     break
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text=msg))    
         except:
-             line_bot_api.reply_message(event.reply_token, TextSendMessage(text='找不到空氣品質資訊。'))
+             line_bot_api.reply_message(event.reply_token, TextSendMessage(text=msg))
 
 
 # Other Message Type
