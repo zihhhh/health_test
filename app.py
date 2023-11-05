@@ -330,6 +330,15 @@ def handle_text_message(event):
                 TextSendMessage(text='請輸入您欲食用的食物名稱')
             ])    
             status = 21
+    elif text=="空氣品質查詢":
+        message = TextSendMessage(
+                text='點選定位並分享位置訊息以獲取空氣品質資訊',
+                quick_reply=QuickReply(
+                    items=[
+                        QuickReplyButton(action=LocationAction(label="定位"))
+                        ]
+            ))
+        line_bot_api.reply_message(event.reply_token,message)        
     
 
     elif text == '查詢紀錄': #查訊紀錄
