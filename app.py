@@ -48,6 +48,7 @@ import constant
 import mysql.connector
 import re
 import openai
+import httpx
 # OPENAI API Key初始化設定
 openai.api_key = os.getenv('OPENAI_API_KEY')
 cnx = mysql.connector.connect(user='user_80956', password='m+c3zHYVaFBSz#w6', host='140.114.88.137', port='3306', database='mhealth_with_line')
