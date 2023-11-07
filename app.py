@@ -629,7 +629,7 @@ def handle_text_message(event):
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text='格式錯誤，請重新輸入'))
         #新功能
         elif status == 20:    
-            line_bot_api.reply_message(event.reply_token,TextSendMessage(text="努力運轉中，請稍後 🥸"))
+            line_bot_api.reply_message(event.reply_token,TextSendMessage(text="努力運轉中，請稍後"))
             print("使用chat gpt")
             messages = [
                 #賦予人設
