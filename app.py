@@ -330,6 +330,11 @@ def handle_text_message(event):
                 TextSendMessage(text='請輸入您欲食用的食物名稱')
             ])    
             status = 21
+    elif text =="運動計畫規劃":
+            line_bot_api.reply_message(event.reply_token, [
+                TextSendMessage(text='請輸入您的目標或想從事的運動種類，如：一周消耗3000卡、跑步')
+            ])    
+            status = 22        
     elif text=="空氣品質查詢":
         message = TextSendMessage(
                 text='點選定位並分享位置訊息以獲取空氣品質資訊',
@@ -624,6 +629,7 @@ def handle_text_message(event):
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text='格式錯誤，請重新輸入'))
         #新功能
         elif status == 20:    
+            line_bot_api.reply_message(event.reply_token,TextSendMessage(text="努力運轉中，請稍後 🥸"))
             print("使用chat gpt")
             messages = [
                 #賦予人設
@@ -655,6 +661,23 @@ def handle_text_message(event):
             messages=messages)
             content = response['choices'][0]['message']['content']
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content.strip()))
+
+        elif status == 22:    
+            print("使用chat gpt")
+            messages = [
+                #賦予人設
+                {'role': 'system', 'content': '請設計一份300字以內的運動計畫且依據以下條件：'}, 
+    
+                #提出問題
+                {'role': 'user','content': event.message.text}
+                ]
+            response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            #max_tokens=128,
+            temperature=0.5,
+            messages=messages)
+            content = response['choices'][0]['message']['content']
+            line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content.strip()))    
         
         elif status == 3: # water intake
             if not isNum(text):
