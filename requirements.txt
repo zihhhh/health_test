@@ -11,5 +11,6 @@ urllib3
 grpcio
 openai==0.28
 beautifulsoup4==4.11.1
+gevent
 
 
