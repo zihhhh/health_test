@@ -668,7 +668,7 @@ def handle_text_message(event):
                 #提出問題
                 {'role': 'user','content': event.message.text}
                 ]
-            response = openai.ChatCompletion.create(
+            response = openai.chat.completions.create(
             model="gpt-3.5-turbo",
             #max_tokens=128,
             temperature=0.5,
