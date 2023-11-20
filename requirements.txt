@@ -9,7 +9,7 @@ mysql-connector==2.2.9
 googletrans-py
 urllib3
 grpcio
-openai
+openai==0.28
 beautifulsoup4==4.11.1
 
 
