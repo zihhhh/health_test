@@ -4,15 +4,12 @@ import math
 import re
 import time
 
-import requests
+import httpx
 
-
-from googletrans.compat import PY3
-from googletrans.compat import unicode
 from googletrans.utils import rshift
 
 
-class TokenAcquirer(object):
+class TokenAcquirer:
     """Google Translate API token generator
 
     translate.google.com uses a token to authorize the requests. If you are
@@ -38,14 +35,11 @@ class TokenAcquirer(object):
         950629.577246
     """
 
-    
+    RE_TKK = re.compile(r'tkk:\'(.+?)\'', re.DOTALL)
+    RE_RAWTKK = re.compile(r'tkk:\'(.+?)\'', re.DOTALL)
 
-    RE_TKK = re.compile(r'TKK=eval\(\'\(\(function\(\)\{(.+?)\}\)\(\)\)\'\);',
-                        re.DOTALL)
-    RE_RAWTKK = re.compile(r'tkk:\'([^\']*)\'',re.DOTALL)
-
-    def __init__(self, tkk='0', session=None, host='translate.google.com'):
-        self.session = session or requests.Session()
+    def __init__(self, client: httpx.Client, tkk='0', host='translate.google.com'):
+        self.client = client
         self.tkk = tkk
         self.host = host if 'http' in host else 'https://' + host
 
@@ -57,15 +51,61 @@ class TokenAcquirer(object):
         if self.tkk and int(self.tkk.split('.')[0]) == now:
             return
 
-        r = self.session.get(self.host)
+        r = self.client.get(self.host)
 
-        rawtkk = self.RE_RAWTKK.search(r.text)
-        if rawtkk:
-            self.tkk = rawtkk.group(1)
+        raw_tkk = self.RE_TKK.search(r.text)
+        if raw_tkk:
+            self.tkk = raw_tkk.group(1)
             return
 
+        # this will be the same as python code after stripping out a reserved word 'var'
+        code = self.RE_TKK.search(r.text).group(1).replace('var ', '')
+        # unescape special ascii characters such like a \x3d(=)
+        code = code.encode().decode('unicode-escape')
+
+        if code:
+            tree = ast.parse(code)
+            visit_return = False
+            operator = '+'
+            n, keys = 0, dict(a=0, b=0)
+            for node in ast.walk(tree):
+                if isinstance(node, ast.Assign):
+                    name = node.targets[0].id
+                    if name in keys:
+                        if isinstance(node.value, ast.Num):
+                            keys[name] = node.value.n
+                        # the value can sometimes be negative
+                        elif isinstance(node.value, ast.UnaryOp) and \
+                                isinstance(node.value.op, ast.USub):  # pragma: nocover
+                            keys[name] = -node.value.operand.n
+                elif isinstance(node, ast.Return):
+                    # parameters should be set after this point
+                    visit_return = True
+                elif visit_return and isinstance(node, ast.Num):
+                    n = node.n
+                elif visit_return and n > 0:
+                    # the default operator is '+' but implement some more for
+                    # all possible scenarios
+                    if isinstance(node, ast.Add):  # pragma: nocover
+                        pass
+                    elif isinstance(node, ast.Sub):  # pragma: nocover
+                        operator = '-'
+                    elif isinstance(node, ast.Mult):  # pragma: nocover
+                        operator = '*'
+                    elif isinstance(node, ast.Pow):  # pragma: nocover
+                        operator = '**'
+                    elif isinstance(node, ast.BitXor):  # pragma: nocover
+                        operator = '^'
+            # a safety way to avoid Exceptions
+            clause = compile('{1}{0}{2}'.format(
+                operator, keys['a'], keys['b']), '', 'eval')
+            value = eval(clause, dict(__builtin__={}))
+            result = '{}.{}'.format(n, value)
+
+            self.tkk = result
+
     def _lazy(self, value):
-        """like lazy evalution, this method returns a lambda function that
+        """like lazy evaluation, this method returns a lambda function that
         returns value given.
         We won't be needing this because this seems to have been built for
         code obfuscation.
@@ -95,6 +135,19 @@ class TokenAcquirer(object):
         return a
 
     def acquire(self, text):
+        a = []
+        # Convert text to ints
+        for i in text:
+            val = ord(i)
+            if val < 0x10000:
+                a += [val]
+            else:
+                # Python doesn't natively use Unicode surrogates, so account for those
+                a += [
+                    math.floor((val - 0x10000) / 0x400 + 0xD800),
+                    math.floor((val - 0x10000) % 0x400 + 0xDC00)
+                ]
+
         b = self.tkk if self.tkk != '0' else ''
         d = b.split('.')
         b = int(d[0]) if len(d) > 1 else 0
@@ -102,9 +155,9 @@ class TokenAcquirer(object):
         # assume e means char code array
         e = []
         g = 0
-        size = len(text)
-        for i, char in enumerate(text):
-            l = ord(char)
+        size = len(a)
+        while g < size:
+            l = a[g]
             # just append if l is less than 128(ascii: DEL)
             if l < 128:
                 e.append(l)
@@ -115,15 +168,16 @@ class TokenAcquirer(object):
                 else:
                     # append calculated value if l matches special condition
                     if (l & 64512) == 55296 and g + 1 < size and \
-                            ord(text[g + 1]) & 64512 == 56320:
+                            a[g + 1] & 64512 == 56320:
                         g += 1
-                        l = 65536 + ((l & 1023) << 10) + ord(text[g]) & 1023
+                        l = 65536 + ((l & 1023) << 10) + (a[g] & 1023)  # This bracket is important
                         e.append(l >> 18 | 240)
                         e.append(l >> 12 & 63 | 128)
                     else:
                         e.append(l >> 12 | 224)
                     e.append(l >> 6 & 63 | 128)
                 e.append(l & 63 | 128)
+            g += 1
         a = b
         for i, value in enumerate(e):
             a += value
