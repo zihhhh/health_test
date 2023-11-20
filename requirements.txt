@@ -6,7 +6,7 @@ SpeechRecognition
 requests
 clarifai_grpc==7.9.0
 mysql-connector==2.2.9
-googletrans==4.0.0
+googletrans==4.0.0-rc1
 urllib3
 grpcio
 openai
