@@ -11,5 +11,5 @@ urllib3
 grpcio
 openai
 beautifulsoup4==4.11.1
-python==3.10
+python--3.10
 
