@@ -1,4 +1,3 @@
-from gevent import monkey
 from linebot import (LineBotApi, WebhookHandler)
 import os, sys
 
