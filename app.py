@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 from flask import Flask,request, abort #改位置
 import gevent #改_新加
 from gevent import monkey  #改_新加
-monkey.patch.all()
+monkey.patch_all()
 
 
 from clarifai_grpc.channel.clarifai_channel import ClarifaiChannel
