@@ -1,8 +1,9 @@
 from __future__ import unicode_literals
+from flask import Flask
 import gevent
 from gevent import monkey
-#monkey.patch.all()
-from flask import Flask, request, abort
+monkey.patch.all()
+from flask import request, abort
 
 from clarifai_grpc.channel.clarifai_channel import ClarifaiChannel
 from clarifai_grpc.grpc.api import service_pb2_grpc
