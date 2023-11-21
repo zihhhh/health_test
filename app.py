@@ -1,5 +1,5 @@
-from gevent import monkey
 from __future__ import unicode_literals
+from gevent import monkey
 from flask import Flask, request, abort
 
 from clarifai_grpc.channel.clarifai_channel import ClarifaiChannel
