@@ -1,9 +1,9 @@
 from __future__ import unicode_literals
-from flask import Flask
-import gevent
-from gevent import monkey
-monkey.patch.all()
-from flask import request, abort
+from flask import Flask,request, abort #改位置
+import gevent #改_新加
+from gevent import monkey  #改_新加
+#monkey.patch.all()
+
 
 from clarifai_grpc.channel.clarifai_channel import ClarifaiChannel
 from clarifai_grpc.grpc.api import service_pb2_grpc
@@ -1730,5 +1730,5 @@ def check_filter(userData_dict, attr):
 if __name__ == "__main__":
     make_static_tmp_dir()
     port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port)
-
+    #app.run(host='0.0.0.0', port=port)
+    http_server = WSGIServer(('0.0.0.0', port), app) #改
