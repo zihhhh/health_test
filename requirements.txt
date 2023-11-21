@@ -1,4 +1,5 @@
 line-bot-sdk
+gevent
 flask
 gunicorn
 clarifai==2.4.1
@@ -11,6 +12,6 @@ urllib3
 grpcio
 openai==0.28
 beautifulsoup4==4.11.1
-gevent
+
 
 
