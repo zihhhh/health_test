@@ -663,8 +663,8 @@ def handle_text_message(event):
             content = response['choices'][0]['message']['content']
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content.strip()))
         elif status == 22:    
-            print("使用chat gpt-0")
-            line_bot_api.reply_message(event.reply_token,TextSendMessage(text="努力生成中，請稍後 (`・ω・´)"))
+            
+            #line_bot_api.reply_message(event.reply_token,TextSendMessage(text="努力生成中，請稍後 (`・ω・´)"))
             print("使用chat gpt")
             messages = [
                 #賦予人設
