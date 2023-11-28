@@ -306,7 +306,13 @@ def get_data():
 def handle_text_message(event):
     if event.message.type=="image":
         print("奇奇怪怪")
-
+        global status
+        ext = 'jpg'
+        message_content = line_bot_api.get_message_content(event.message.id)
+        print("h3")
+        print(event.message.id)
+        with tempfile.NamedTemporaryFile(dir='/opt/render/project/src/static/tmp', prefix=ext + '-', delete=False) as tf:
+            print("h4")
 @handler.add(MessageEvent, message=TextMessage)
 def handle_text_message(event):
     text = event.message.text
