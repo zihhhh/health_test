@@ -306,7 +306,7 @@ def get_data():
 def handle_text_message(event):
     if event.message.type=="image":
         print("奇奇怪怪")
-        global status
+        #global status
         ext = 'jpg'
         message_content = line_bot_api.get_message_content(event.message.id)
         print("h3")
