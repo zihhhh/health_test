@@ -954,11 +954,14 @@ def handle_content_message(event):
         ext = 'jpg'
         message_content = line_bot_api.get_message_content(event.message.id)
         print("h3")
+        print(event.message.id)
         # Write image into a temporary file
         with tempfile.NamedTemporaryFile(dir=static_tmp_path, prefix=ext + '-', delete=False) as tf:
+            print("h4")
             for chunk in message_content.iter_content():
+                print("h5")
                 tf.write(chunk)
-                print("h4")
+                print("h6")
         # Change temporary file path with new one.
         tempfile_path = tf.name
         dist_path = tempfile_path + '.' + ext
