@@ -1,4 +1,3 @@
-from __future__ import unicode_literals
 from flask import Flask,request, abort #改位置
 import gevent #改_新加
 from gevent import monkey  #改_新加
@@ -946,10 +945,12 @@ def aqi(event):
         
 
 # Other Message Type
-@handler.add(MessageEvent, message=(ImageMessage, VideoMessage, AudioMessage))
+@handler.add(MessageEvent, message=ImageMessage)
 def handle_content_message(event):
     # Whether this message is image or not
+    print("hello")
     if isinstance(event.message, ImageMessage):
+        print("h2")
         global status
         ext = 'jpg'
         message_content = line_bot_api.get_message_content(event.message.id)
