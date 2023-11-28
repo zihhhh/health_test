@@ -943,7 +943,7 @@ def aqi(event):
                 msg = f'空氣品質{site_list[i]["status"]} ( AQI {site_list[i]["aqi"]} )。'
                 break
         
-
+'''
 # Other Message Type
 @handler.add(MessageEvent,message=(ImageMessage, VideoMessage, AudioMessage))
 def handle_content_message(event):
@@ -1076,7 +1076,9 @@ def handle_content_message(event):
         line_bot_api.reply_message(event.reply_token, messages)
     else:
         return  
-
+'''
+if event.message.type=="image":
+    print("奇奇怪怪")
 @handler.add(MessageEvent, message=FileMessage)
 def handle_file_message(event):
     pass
