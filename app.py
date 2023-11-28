@@ -956,7 +956,9 @@ def handle_content_message(event):
         print("h3")
         print(event.message.id)
         # Write image into a temporary file
+        '/opt/render/project/src/static/tmp'
         with tempfile.NamedTemporaryFile(dir=static_tmp_path, prefix=ext + '-', delete=False) as tf:
+        with tempfile.NamedTemporaryFile(dir='/opt/render/project/src/static/tmp', prefix=ext + '-', delete=False) as tf:
             print("h4")
             for chunk in message_content.iter_content():
                 print("h5")
