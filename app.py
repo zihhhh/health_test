@@ -945,7 +945,7 @@ def aqi(event):
         
 
 # Other Message Type
-@handler.add(MessageEvent, message=ImageMessage)
+@handler.add(MessageEvent,message=(ImageMessage, VideoMessage, AudioMessage))
 def handle_content_message(event):
     # Whether this message is image or not
     if isinstance(event.message, ImageMessage):
