@@ -302,8 +302,10 @@ def get_data():
 
     return 'OK'
 
-
-
+@handler.add(MessageEvent, message=ImageMessage)
+def handle_text_message(event):
+    if event.message.type=="image":
+        print("奇奇怪怪")
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_text_message(event):
@@ -1077,8 +1079,7 @@ def handle_content_message(event):
     else:
         return  
 '''
-if event.message.type=="image":
-    print("奇奇怪怪")
+
 @handler.add(MessageEvent, message=FileMessage)
 def handle_file_message(event):
     pass
