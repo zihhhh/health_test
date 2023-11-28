@@ -160,7 +160,7 @@ metadataE = (('authorization', f'Key aa3dea7f885445768b04c73a88781005'),)
 hwID_list = ['0125f93bd3', '0126846195']
 
 static_tmp_path = os.path.join(os.path.dirname(__file__), 'static', 'tmp')
-
+print("路徑"+static_tmp_path)
 # function for create tmp dir for download content
 def make_static_tmp_dir():
     try:
