@@ -948,24 +948,23 @@ def aqi(event):
 @handler.add(MessageEvent, message=ImageMessage)
 def handle_content_message(event):
     # Whether this message is image or not
-    print("hello")
     if isinstance(event.message, ImageMessage):
         print("h2")
         global status
         ext = 'jpg'
         message_content = line_bot_api.get_message_content(event.message.id)
-
+        print("h3")
         # Write image into a temporary file
         with tempfile.NamedTemporaryFile(dir=static_tmp_path, prefix=ext + '-', delete=False) as tf:
             for chunk in message_content.iter_content():
                 tf.write(chunk)
-
+                print("h4")
         # Change temporary file path with new one.
         tempfile_path = tf.name
         dist_path = tempfile_path + '.' + ext
         dist_name = os.path.basename(dist_path)
         os.rename(tempfile_path, dist_path)
-
+        print("h4")
         # Upload image to mhealth-server        
         url = 'https://selab1.cs.nthu.edu.tw/api/image?ext='+ext
         files = [('file', open(dist_path, 'rb'))]
