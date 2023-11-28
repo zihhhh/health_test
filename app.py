@@ -311,8 +311,8 @@ def handle_text_message(event):
         message_content = line_bot_api.get_message_content(event.message.id)
         print("h3")
         print(event.message.id)
-        #with tempfile.NamedTemporaryFile(dir='/opt/render/project/src/static/tmp', prefix=ext + '-', delete=False) as tf:
-            #print("h4")
+        with tempfile.NamedTemporaryFile(dir='/opt/render/project/src/static/tmp',delete=False) :
+            print("h4")
 @handler.add(MessageEvent, message=TextMessage)
 def handle_text_message(event):
     text = event.message.text
