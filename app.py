@@ -978,7 +978,7 @@ def handle_content_message(event):
         print('liff compose:'+imageLiffURI)
 
         # Image path inside Heroku server
-        imageUrl='https://health-checker-python.herokuapp.com/'+os.path.join('static', 'tmp', dist_name)
+        imageUrl='https://test-mwmy.onrender.com/'+os.path.join('static', 'tmp', dist_name)
         print('imageURL (heroku): ', imageUrl)
         concept_request = service_pb2.PostModelOutputsRequest(
             # This is the model ID of a publicly available Food model.
