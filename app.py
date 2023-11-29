@@ -991,7 +991,7 @@ def aqi(event):
                 elif aqi_val>150 and aqi_val<=200: aqi_status = '對所有族群不健康'
                 elif aqi_val>200 and aqi_val<=300: aqi_status = '非常不健康'
                 else: aqi_status = '危害'
-                line_bot_api.reply_message(event.reply_token, TextSendMessage(text='空氣品質'+aqi_status+'AQI'+ aqi_val))
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text='空氣品質'+aqi_status+'AQI'+ str(aqi_val))
                 break
         for i in site_list:
             if i in address:  # 如果地址裡包含鄉鎮區域名稱的 key，就直接使用對應的內容
