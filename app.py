@@ -664,10 +664,10 @@ def handle_text_message(event):
             dis_ch = '、 '.join(d for d, flag in zip(DiseaseList, disease) if flag == 1)
             # 如果 dis_ch 為空，則表示沒有疾病，將其設置為 '無'
             dis = dis_ch if dis_ch else '無特殊疾病'
-            if dis=='無'
+            if dis=='無':
                 content_gpt='你現在是一位醫生，請給予以下身體狀況建議，限200字以內'
-            else
-                content_gpt='擁有'+ dis +請給予以下身體狀況建議，限200字以內'
+            else:
+                content_gpt='擁有'+ dis +'請給予以下身體狀況建議，限200字以內'
             print(content_gpt)
             print("使用chat gpt")
             messages = [
