@@ -407,14 +407,6 @@ def handle_text_message(event):
         DiseaseList = ['糖尿病', '心臟病', '高血壓', '下腹突出']
         # 使用集合運算符快速檢查兩個列表的相等元素
         disease = [int(disease_item in userDiseaseList) for disease_item in DiseaseList]
-        '''
-        userDiseaseList = json.loads(response.text)
-        DiseaseList = ['糖尿病', '心臟病', '高血壓', '下腹突出']
-        for i in range(4):
-            for item in userDiseaseList:
-                if DiseaseList[i] == item['disease']:
-                    disease[i] = 1
-         '''           
         if disease[0] == 1:
             suggest.append(TextSendMessage(text=diabete))
         if disease[1] == 1:
@@ -677,17 +669,19 @@ def handle_text_message(event):
             content = response['choices'][0]['message']['content']
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content.strip()))
         elif status == 21:    
-            print("使用chat gpt")
+            print("哈")
             data = {'lineID' : event.source.user_id}
             response = requests.post(config.PHP_SERVER+'mhealth/disease/queryUserDisease.php', data = data)
-            userDiseaseList = json.loads(response.text)
+            userDiseaseList = {item['disease'] for item in json.loads(response.text)}
             DiseaseList = ['糖尿病', '心臟病', '高血壓', '下腹突出']
-            for i in range(4):
-                for item in userDiseaseList:
-                    if DiseaseList[i] == item['disease']:
-                        disease[i] = 1
-            
-            #dis_ch=['糖尿病','心臟病','高血壓','下腹突出']
+            # 使用集合運算符快速檢查兩個列表的相等元素
+            disease = [int(disease_item in userDiseaseList) for disease_item in DiseaseList]
+            # 過濾掉為 0 的元素，並用逗號分隔拼接成字符串
+            dis_ch = '、 '.join(d for d, flag in zip(DiseaseList, disease) if flag == 1)
+            # 如果 dis_ch 為空，則表示沒有疾病，將其設置為 '無'
+            dis = dis_ch if dis_ch else '無'
+            print('dis'+dis)
+            '''
             dis=''
             count=0
             for i in range(3):
@@ -705,7 +699,7 @@ def handle_text_message(event):
                 print(dis)    
                 #if count==4:
                    #dis=dis+'、'+DiseaseList[i]
-            
+            '''
             print("使用chat gpt")
             messages = [
                 #賦予人設
