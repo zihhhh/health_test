@@ -686,7 +686,7 @@ def handle_text_message(event):
         
             messages = [
                 #賦予人設
-                {'role': 'system', 'content': cont_gpt}, 
+                {'role': 'system', 'content': content_gpt}, 
                 #你是一位營養師，請給予以下食物食用順序的建議，限200字以內
                 #提出問題
                 {'role': 'user','content': event.message.text}
