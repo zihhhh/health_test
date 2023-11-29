@@ -402,12 +402,19 @@ def handle_text_message(event):
         suggest = []
         data = {'lineID' : event.source.user_id}
         response = requests.post(config.PHP_SERVER+'mhealth/disease/queryUserDisease.php', data = data)
+        
+        userDiseaseList = {item['disease'] for item in json.loads(response.text)}
+        DiseaseList = ['糖尿病', '心臟病', '高血壓', '下腹突出']
+        # 使用集合運算符快速檢查兩個列表的相等元素
+        disease = [int(disease_item in userDiseaseList) for disease_item in DiseaseList]
+        '''
         userDiseaseList = json.loads(response.text)
         DiseaseList = ['糖尿病', '心臟病', '高血壓', '下腹突出']
         for i in range(4):
             for item in userDiseaseList:
                 if DiseaseList[i] == item['disease']:
                     disease[i] = 1
+         '''           
         if disease[0] == 1:
             suggest.append(TextSendMessage(text=diabete))
         if disease[1] == 1:
