@@ -352,7 +352,16 @@ def handle_text_message(event):
             line_bot_api.reply_message(event.reply_token, [
                 TextSendMessage(text='請輸入您的運動目標及運動種類 (如:一周消耗5000卡、跑步)：')
             ])    
-            status = 22        
+            status = 22
+    elif text =="空氣品質查詢":
+        message = TextSendMessage(
+                text='點選定位並分享位置訊息以獲取空氣品質資訊',
+                quick_reply=QuickReply(
+                    items=[
+                        QuickReplyButton(action=LocationAction(label="定位"))
+                        ]
+            ))
+        line_bot_api.reply_message(event.reply_token,message)  
     
 
     elif text == '查詢紀錄': #查訊紀錄
@@ -654,6 +663,35 @@ def handle_text_message(event):
             content = response['choices'][0]['message']['content']
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content.strip()))
         elif status == 21:    
+            print("使用chat gpt")
+            data = {'lineID' : event.source.user_id}
+            response = requests.post(config.PHP_SERVER+'mhealth/disease/queryUserDisease.php', data = data)
+            userDiseaseList = json.loads(response.text)
+            DiseaseList = ['糖尿病', '心臟病', '高血壓', '下腹突出']
+            for i in range(4):
+                for item in userDiseaseList:
+                    if DiseaseList[i] == item['disease']:
+                        disease[i] = 1
+            
+            dis_ch=['糖尿病','心臟病','高血壓','下腹突出']
+            dis=''
+            
+            for i in range(3):
+                if disease[i]==1:
+                    count=count+1
+                    dis_ch[i]
+                if count==0:
+                    dis='無'
+                if count==1:
+                    dis=dis_ch[i]
+                if count==2:
+                    dis=dis+'、'+dis_ch[i]
+                if count==3:
+                    dis=dis+'、'+dis_ch[i]
+                print(dis)    
+                #if count==4:
+                   #dis=dis+'、'+dis_ch[i]
+            
             print("使用chat gpt")
             messages = [
                 #賦予人設
