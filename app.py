@@ -679,32 +679,15 @@ def handle_text_message(event):
             # 過濾掉為 0 的元素，並用逗號分隔拼接成字符串
             dis_ch = '、 '.join(d for d, flag in zip(DiseaseList, disease) if flag == 1)
             # 如果 dis_ch 為空，則表示沒有疾病，將其設置為 '無'
-            dis = dis_ch if dis_ch else '無'
-            print('dis'+dis)
-            '''
-            dis=''
-            count=0
-            for i in range(3):
-                if disease[i]==1:
-                    count=count+1
-                    DiseaseList[i]
-                if count==0:
-                    dis='無'
-                if count==1:
-                    dis=DiseaseList[i]
-                if count==2:
-                    dis=dis+'、'+DiseaseList[i]
-                if count==3:
-                    dis=dis+'、'+DiseaseList[i]
-                print(dis)    
-                #if count==4:
-                   #dis=dis+'、'+DiseaseList[i]
-            '''
-            print("使用chat gpt")
+            dis = dis_ch if dis_ch else '無特殊疾病'
+            print('dis:'+dis)
+            content_gpt='你是一位營養師，請根據以下身體狀況:'+ dis + '，給予以下食物食用順序的建議，限200字以內'
+            print(content_gpt)
+        
             messages = [
                 #賦予人設
-                {'role': 'system', 'content': '你是一位營養師，請給予以下食物食用順序的建議，限200字以內'}, 
-    
+                {'role': 'system', 'content': cont_gpt}, 
+                #你是一位營養師，請給予以下食物食用順序的建議，限200字以內
                 #提出問題
                 {'role': 'user','content': event.message.text}
                 ]
