@@ -672,7 +672,7 @@ def handle_text_message(event):
             print("使用chat gpt")
             messages = [
                 #賦予人設
-                {'role': 'system', 'content': content_gpt'}, 
+                {'role': 'system', 'content': content_gpt}, 
     
                 #提出問題
                 {'role': 'user','content': event.message.text}
