@@ -400,7 +400,14 @@ def handle_text_message(event):
         highpressure = '因為您患有高血壓，所以肉類、濃茶(或咖啡)、酒、辛辣和重鹹食物請盡量少吃，可多吃豆類、綠色葉菜類(如芹菜)、魚類等食物，這些食物富含鉀、鎂等礦物質，能幫助降低血壓'
         belly = '因為您患有下腹突出，所以檸檬、柑橘、草莓、生食等食物請盡量少吃，避免一次攝取過多水分，可多吃祛寒食物，如辣椒、薑、咖哩、胡蘿蔔等，並且少量多餐'
         suggest = []
-        
+        data = {'lineID' : event.source.user_id}
+            response = requests.post(config.PHP_SERVER+'mhealth/disease/queryUserDisease.php', data = data)
+            userDiseaseList = json.loads(response.text)
+            DiseaseList = ['糖尿病', '心臟病', '高血壓', '下腹突出']
+            for i in range(4):
+                for item in userDiseaseList:
+                    if DiseaseList[i] == item['disease']:
+                        disease[i] = 1
         if disease[0] == 1:
             suggest.append(TextSendMessage(text=diabete))
         if disease[1] == 1:
@@ -664,6 +671,7 @@ def handle_text_message(event):
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content.strip()))
         elif status == 21:    
             print("使用chat gpt")
+            '''
             data = {'lineID' : event.source.user_id}
             response = requests.post(config.PHP_SERVER+'mhealth/disease/queryUserDisease.php', data = data)
             userDiseaseList = json.loads(response.text)
@@ -691,7 +699,7 @@ def handle_text_message(event):
                 print(dis)    
                 #if count==4:
                    #dis=dis+'、'+dis_ch[i]
-            
+            '''
             print("使用chat gpt")
             messages = [
                 #賦予人設
