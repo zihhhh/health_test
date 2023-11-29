@@ -401,13 +401,13 @@ def handle_text_message(event):
         belly = '因為您患有下腹突出，所以檸檬、柑橘、草莓、生食等食物請盡量少吃，避免一次攝取過多水分，可多吃祛寒食物，如辣椒、薑、咖哩、胡蘿蔔等，並且少量多餐'
         suggest = []
         data = {'lineID' : event.source.user_id}
-            response = requests.post(config.PHP_SERVER+'mhealth/disease/queryUserDisease.php', data = data)
-            userDiseaseList = json.loads(response.text)
-            DiseaseList = ['糖尿病', '心臟病', '高血壓', '下腹突出']
-            for i in range(4):
-                for item in userDiseaseList:
-                    if DiseaseList[i] == item['disease']:
-                        disease[i] = 1
+        response = requests.post(config.PHP_SERVER+'mhealth/disease/queryUserDisease.php', data = data)
+        userDiseaseList = json.loads(response.text)
+        DiseaseList = ['糖尿病', '心臟病', '高血壓', '下腹突出']
+        for i in range(4):
+            for item in userDiseaseList:
+                if DiseaseList[i] == item['disease']:
+                    disease[i] = 1
         if disease[0] == 1:
             suggest.append(TextSendMessage(text=diabete))
         if disease[1] == 1:
@@ -975,7 +975,8 @@ def aqi(event):
             if city not in city_list:
                 city_list[city]=[]             # 以縣市名稱為 key，準備存入串列資料
             site = i['sitename']               # 取出鄉鎮區域名稱
-            aqi = int(i['aqi'])                # 取得 AQI 數值
+            aqi = i['aqi']                # 取得 AQI 數值
+            aqi=int(aqi)
             status = i['status']               # 取得空氣品質狀態
             site_list[site] = {'aqi':aqi, 'status':status}  # 記錄鄉鎮區域空氣品質
             city_list[city].append(aqi)        # 將各個縣市裡的鄉鎮區域空氣 aqi 數值，以串列方式放入縣市名稱的變數裡
@@ -994,7 +995,8 @@ def aqi(event):
                 break
         for i in site_list:
             if i in address:  # 如果地址裡包含鄉鎮區域名稱的 key，就直接使用對應的內容
-                msg = f'空氣品質{site_list[i]["status"]} ( AQI {site_list[i]["aqi"]} )。'
+                #msg = f'空氣品質{site_list[i]["status"]} ( AQI {site_list[i]["aqi"]} )。'
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text='空氣品質'+site_list[i]["status"]+'AQI'+ site_list[i]["aqi"]))
                 break
         
 '''
