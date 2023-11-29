@@ -653,10 +653,26 @@ def handle_text_message(event):
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text='格式錯誤，請重新輸入'))
         #新功能
         elif status == 20:    
+            print("哈")
+            data = {'lineID' : event.source.user_id}
+            response = requests.post(config.PHP_SERVER+'mhealth/disease/queryUserDisease.php', data = data)
+            userDiseaseList = {item['disease'] for item in json.loads(response.text)}
+            DiseaseList = ['糖尿病', '心臟病', '高血壓', '下腹突出']
+            # 使用集合運算符快速檢查兩個列表的相等元素
+            disease = [int(disease_item in userDiseaseList) for disease_item in DiseaseList]
+            # 過濾掉為 0 的元素，並用逗號分隔拼接成字符串
+            dis_ch = '、 '.join(d for d, flag in zip(DiseaseList, disease) if flag == 1)
+            # 如果 dis_ch 為空，則表示沒有疾病，將其設置為 '無'
+            dis = dis_ch if dis_ch else '無特殊疾病'
+            if dis=='無'
+                content_gpt='你現在是一位醫生，請給予以下身體狀況建議，限200字以內'
+            else
+                content_gpt='擁有'+ dis +請給予以下身體狀況建議，限200字以內'
+            print(content_gpt)
             print("使用chat gpt")
             messages = [
                 #賦予人設
-                {'role': 'system', 'content': '你現在是一位醫生，請給予以下身體狀況建議，限200字以內'}, 
+                {'role': 'system', 'content': content_gpt'}, 
     
                 #提出問題
                 {'role': 'user','content': event.message.text}
@@ -680,8 +696,8 @@ def handle_text_message(event):
             dis_ch = '、 '.join(d for d, flag in zip(DiseaseList, disease) if flag == 1)
             # 如果 dis_ch 為空，則表示沒有疾病，將其設置為 '無'
             dis = dis_ch if dis_ch else '無特殊疾病'
-            print('dis:'+dis)
-            content_gpt='你是一位營養師，請根據以下身體狀況:'+ dis + '，給予以下食物食用順序的建議，限200字以內'
+           
+            content_gpt='請根據以下身體狀況:'+ dis + '，給予以下食物食用順序的建議，限200字以內'
             print(content_gpt)
         
             messages = [
@@ -693,7 +709,7 @@ def handle_text_message(event):
                 ]
             response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
-            #max_tokens=128,
+            max_tokens=128,
             temperature=0.5,
             messages=messages)
             content = response['choices'][0]['message']['content']
