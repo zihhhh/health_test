@@ -675,7 +675,7 @@ def handle_text_message(event):
             
             dis_ch=['糖尿病','心臟病','高血壓','下腹突出']
             dis=''
-            
+            count=0
             for i in range(3):
                 if disease[i]==1:
                     count=count+1
