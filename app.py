@@ -671,7 +671,35 @@ def handle_text_message(event):
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content.strip()))
         elif status == 21:    
             print("使用chat gpt")
+            data = {'lineID' : event.source.user_id}
+            response = requests.post(config.PHP_SERVER+'mhealth/disease/queryUserDisease.php', data = data)
+            userDiseaseList = json.loads(response.text)
+            DiseaseList = ['糖尿病', '心臟病', '高血壓', '下腹突出']
+            for i in range(4):
+                for item in userDiseaseList:
+                    if DiseaseList[i] == item['disease']:
+                        disease[i] = 1
             
+            #dis_ch=['糖尿病','心臟病','高血壓','下腹突出']
+            dis=''
+            count=0
+            for i in range(3):
+                if disease[i]==1:
+                    count=count+1
+                    DiseaseList[i]
+                if count==0:
+                    dis='無'
+                if count==1:
+                    dis=DiseaseList[i]
+                if count==2:
+                    dis=dis+'、'+DiseaseList[i]
+                if count==3:
+                    dis=dis+'、'+DiseaseList[i]
+                print(dis)    
+                #if count==4:
+                   #dis=dis+'、'+DiseaseList[i]
+            
+            print("使用chat gpt")
             messages = [
                 #賦予人設
                 {'role': 'system', 'content': '你是一位營養師，請給予以下食物食用順序的建議，限200字以內'}, 
@@ -962,12 +990,12 @@ def aqi(event):
                 elif aqi_val>150 and aqi_val<=200: aqi_status = '對所有族群不健康'
                 elif aqi_val>200 and aqi_val<=300: aqi_status = '非常不健康'
                 else: aqi_status = '危害'
-                line_bot_api.reply_message(event.reply_token, TextSendMessage(text='空氣品質'+aqi_status+'AQI'+ str(aqi_val)))
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text='空氣品質：'+aqi_status+'   '+'AQI'+ str(aqi_val)))
                 break
         for i in site_list:
             if i in address:  # 如果地址裡包含鄉鎮區域名稱的 key，就直接使用對應的內容
                 #msg = f'空氣品質{site_list[i]["status"]} ( AQI {site_list[i]["aqi"]} )。'
-                line_bot_api.reply_message(event.reply_token, TextSendMessage(text='空氣品質'+site_list[i]["status"]+'AQI'+ site_list[i]["aqi"]))
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text='空氣品質'+site_list[i]["status"]+'   '+'AQI'+ str(site_list[i]["aqi"])))
                 break
         
 '''
