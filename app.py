@@ -311,6 +311,8 @@ def handle_text_message(event):
         message_content = line_bot_api.get_message_content(event.message.id)
         print("h3")
         print(event.message.id)
+        dir_path = '/opt/render/project/src/static/tmp'
+        os.makedirs(dir_path, exist_ok=True)
         with tempfile.NamedTemporaryFile(dir='/opt/render/project/src/static/tmp',delete=False) :
             print("h4")
 @handler.add(MessageEvent, message=TextMessage)
