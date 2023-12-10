@@ -1098,7 +1098,7 @@ def handle_content_message(event):
         template=ButtonsTemplate(
             title='食物辨識完成',
             text='點擊下方連結以進一步新增飲食',
-            thumbnail_image_url=res.json().get('url')
+            thumbnail_image_url=res.json().get('url'),
             actions=[
                 URITemplateAction(
                     label='辨識結果',
