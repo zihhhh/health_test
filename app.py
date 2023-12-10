@@ -1013,8 +1013,9 @@ def handle_content_message(event):
         message_content = line_bot_api.get_message_content(event.message.id)
         print("h3")
         print(event.message.id)
+        dir_path = '/opt/render/project/src/static/tmp'
+        os.makedirs(dir_path, exist_ok=True)
         # Write image into a temporary file
-        #'/opt/render/project/src/static/tmp'
         with tempfile.NamedTemporaryFile(dir='/opt/render/project/src/static/tmp', delete=False) as tf:
         #with tempfile.NamedTemporaryFile(dir='/opt/render/project/src/static/tmp', prefix=ext + '-', delete=False) as tf:
             print("h4")
