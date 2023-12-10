@@ -1062,7 +1062,7 @@ def handle_content_message(event):
         concepts = response.outputs[0].data.concepts
         print("辨識結果： ", concepts[0].name, ', ', concepts[1].name, ', ', concepts[2].name)
         foodRecognitionURI=imageLiffURI+'&food1='+concepts[0].name+'&food2='+concepts[1].name+'&food3='+concepts[2].name
-
+        print("英文:"+foodRecognitionURI) 
         translator = googletrans.Translator()
         transTW = [
             translator.translate(concepts[0].name, dest = 'zh-tw').text,
@@ -1089,12 +1089,13 @@ def handle_content_message(event):
         
         print("辨識結果中文："+transTW[0]+','+transTW[1]+','+transTW[2])
         foodRecognitionURI=imageLiffURI+'&food1='+transTW[0]+'&food2='+transTW[1]+'&food3='+transTW[2]
-        print(foodRecognitionURI)
+        print("中文1:"+foodRecognitionURI) 
         conflicts = utility.foodConflict(transTW)
         print("哈哈哈")
         messages = []
         buttons_template = TemplateSendMessage(
         alt_text='Buttons Template',
+        print("中文2:"+foodRecognitionURI)    
         template=ButtonsTemplate(
             title='食物辨識完成',
             text='點擊下方連結以進一步新增飲食',
@@ -1102,7 +1103,7 @@ def handle_content_message(event):
             actions=[
                 URITemplateAction(
                     label='辨識結果',
-                    uri="line://app/1618989713-jgAp7pMv?image=0d96ccf8a7ed1a4e2ac6016db6f88356.jpg&food1=\u860b\u679c&food2=\u679c\u6c41&food3=\u751c\u7684"
+                    uri="line://app/1618989713-jgAp7pMv?image=0d96ccf8a7ed1a4e2ac6016db6f88356.jpg&food1=蘋果&food2=果汁&food3=甜的"
                     )
                 ]
             )
