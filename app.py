@@ -1107,7 +1107,7 @@ def handle_content_message(event):
             actions=[
                 URITemplateAction(
                     label='辨識結果',
-                    uri="https://line.me/R/app/1618989713-jgAp7pMv?image=9164d1b8235d3b21d2dc8d7ad6dd79e4.jpg&food1=蘋果&food2=果汁&food3=甜的"
+                    uri=foodRecognitionURI
                     )
                 ]
             )
