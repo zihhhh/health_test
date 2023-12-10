@@ -1089,7 +1089,7 @@ def handle_content_message(event):
         
         print("辨識結果中文："+transTW[0]+','+transTW[1]+','+transTW[2])
         foodRecognitionURI=imageLiffURI+'&food1='+transTW[0]+'&food2='+transTW[1]+'&food3='+transTW[2]
-        # print(transTW)
+        print(foodRecognitionURI)
         conflicts = utility.foodConflict(transTW)
         print("哈哈哈")
         messages = []
@@ -1098,7 +1098,7 @@ def handle_content_message(event):
         template=ButtonsTemplate(
             title='食物辨識完成',
             text='點擊下方連結以進一步新增飲食',
-            #thumbnail_image_url=res.json().get('url'),
+            thumbnail_image_url=res.json().get('url')
             actions=[
                 URITemplateAction(
                     label='辨識結果',
