@@ -159,8 +159,8 @@ metadataE = (('authorization', f'Key aa3dea7f885445768b04c73a88781005'),)
 # List of collaborated beacon HWID
 hwID_list = ['0125f93bd3', '0126846195']
 
-static_tmp_path = os.path.join(os.path.dirname(__file__), 'static', 'tmp')
-print("路徑"+static_tmp_path)
+#static_tmp_path = os.path.join(os.path.dirname(__file__), 'static', 'tmp')
+#print("路徑"+static_tmp_path)
 # function for create tmp dir for download content
 def make_static_tmp_dir():
     try:
@@ -301,7 +301,7 @@ def get_data():
         cnx.commit()
 
     return 'OK'
-
+'''
 @handler.add(MessageEvent, message=ImageMessage)
 def handle_text_message(event):
     if event.message.type=="image":
@@ -315,6 +315,7 @@ def handle_text_message(event):
         os.makedirs(dir_path, exist_ok=True)
         with tempfile.NamedTemporaryFile(dir='/opt/render/project/src/static/tmp',delete=False) :
             print("h4")
+'''
 @handler.add(MessageEvent, message=TextMessage)
 def handle_text_message(event):
     text = event.message.text
@@ -1000,7 +1001,7 @@ def aqi(event):
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text='空氣品質'+site_list[i]["status"]+'   '+'AQI'+ str(site_list[i]["aqi"])))
                 break
         
-'''
+
 # Other Message Type
 @handler.add(MessageEvent,message=(ImageMessage, VideoMessage, AudioMessage))
 def handle_content_message(event):
@@ -1133,7 +1134,7 @@ def handle_content_message(event):
         line_bot_api.reply_message(event.reply_token, messages)
     else:
         return  
-'''
+
 
 @handler.add(MessageEvent, message=FileMessage)
 def handle_file_message(event):
