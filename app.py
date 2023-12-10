@@ -1102,7 +1102,7 @@ def handle_content_message(event):
             actions=[
                 URITemplateAction(
                     label='辨識結果',
-                    uri="https://line.me/R/app/1618989713-jgAp7pMv?image=696891147692610f8d804ef855e1d442.jpg&food1=%E8%98%8B%E6%9E%9C&food2=%E6%9E%9C%E6%B1%81&food3=%E7%94%9C%E7%9A%84"
+                    uri="line://app/1618989713-jgAp7pMv?image=696891147692610f8d804ef855e1d442.jpg&food1=%E8%98%8B%E6%9E%9C&food2=%E6%9E%9C%E6%B1%81&food3=%E7%94%9C%E7%9A%84"
                     )
                 ]
             )
