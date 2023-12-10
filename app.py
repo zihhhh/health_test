@@ -1102,13 +1102,15 @@ def handle_content_message(event):
             actions=[
                 URITemplateAction(
                     label='辨識結果',
-                    uri=foodRecognitionURI
+                    uri="https://www.google.com.tw/webhp?hl=zh-TW" #foodRecognitionURI
                     )
                 ]
             )
         )
         print("哈哈哈2")
         messages.append(buttons_template)
+        print(message[0])
+        print("哈哈哈3")
         if len(conflicts) != 0:
             messages.append(TextSendMessage(text='餐點中含有食物相剋:'+ utility.foodsMessage(conflicts)))
 
