@@ -1109,7 +1109,7 @@ def handle_content_message(event):
         )
         print("哈哈哈2")
         messages.append(buttons_template)
-        print(message[0])
+        print(messages[0])
         line_bot_api.reply_message(event.reply_token, messages)
         print("哈哈哈3")
         if len(conflicts) != 0:
