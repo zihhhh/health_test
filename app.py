@@ -1091,7 +1091,7 @@ def handle_content_message(event):
         foodRecognitionURI=imageLiffURI+'&food1='+transTW[0]+'&food2='+transTW[1]+'&food3='+transTW[2]
         # print(transTW)
         conflicts = utility.foodConflict(transTW)
-        # print(conflicts)
+        print("conflicts:"+conflicts)
         messages = []
         buttons_template = TemplateSendMessage(
         alt_text='Buttons Template',
