@@ -1102,7 +1102,7 @@ def handle_content_message(event):
             actions=[
                 URITemplateAction(
                     label='辨識結果',
-                    uri=foodRecognitionURI
+                    uri="line://app/1618989713-jgAp7pMv?image=0d96ccf8a7ed1a4e2ac6016db6f88356.jpg&food1=\u860b\u679c&food2=\u679c\u6c41&food3=\u751c\u7684"
                     )
                 ]
             )
