@@ -1093,9 +1093,9 @@ def handle_content_message(event):
         conflicts = utility.foodConflict(transTW)
         print("哈哈哈")
         messages = []
+        print("中文2:"+foodRecognitionURI) 
         buttons_template = TemplateSendMessage(
         alt_text='Buttons Template',
-        print("中文2:"+foodRecognitionURI)    
         template=ButtonsTemplate(
             title='食物辨識完成',
             text='點擊下方連結以進一步新增飲食',
