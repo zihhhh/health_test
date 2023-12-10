@@ -1102,7 +1102,7 @@ def handle_content_message(event):
             actions=[
                 URITemplateAction(
                     label='辨識結果',
-                    uri=foodRecognitionURI
+                    uri=imageLiffURI+'&food1='+transTW[0]+'&food2='+transTW[1]+'&food3='+transTW[2]
                     )
                 ]
             )
