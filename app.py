@@ -52,7 +52,7 @@ import mysql.connector
 import re
 import requests
 from bs4 import BeautifulSoup
-
+from urllib import parse
 #from openai import OpenAI
 import openai
 '''
@@ -1089,11 +1089,15 @@ def handle_content_message(event):
         
         print("辨識結果中文："+transTW[0]+','+transTW[1]+','+transTW[2])
         foodRecognitionURI=imageLiffURI+'&food1='+transTW[0]+'&food2='+transTW[1]+'&food3='+transTW[2]
-        print("中文1:"+foodRecognitionURI) 
+        print("轉換前:"foodRecognitionURI)
+        # 將每個字串轉換成 UTF-8 編碼
+        transTW_utf8 = [parse.quote(s) for s in transTW]
+        print(transTW_utf8)
+        foodRecognitionURI=imageLiffURI+'&food1='+transTW_utf8[0]+'&food2='+transTW_utf8[1]+'&food3='+transTW_utf8[2]
+        print("轉換後:"foodRecognitionURI)
         conflicts = utility.foodConflict(transTW)
-        print("哈哈哈")
         messages = []
-        print("中文2:"+foodRecognitionURI) 
+        print("哈:"foodRecognitionURI) 
         buttons_template = TemplateSendMessage(
         alt_text='Buttons Template',
         template=ButtonsTemplate(
