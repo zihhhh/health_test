@@ -1102,7 +1102,7 @@ def handle_content_message(event):
             actions=[
                 URITemplateAction(
                     label='辨識結果',
-                    uri="https://www.google.com.tw/webhp?hl=zh-TW" #foodRecognitionURI
+                    uri=foodRecognitionURI
                     )
                 ]
             )
