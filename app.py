@@ -381,7 +381,7 @@ def handle_text_message(event):
             '理想的飲食順序為:\n1. 蔬菜類\n2. 蛋豆魚肉類\n3. 脂肪類\n4. 五穀根莖類\n5. 水果\n6. 飲料和甜點'),
             TextSendMessage(text='請輸入想吃的食物名稱\nex:牛排 沙拉 奶茶 巧克力蛋糕')
         ])
-        status = 7
+        status = 24
     elif text == '健康管家':
         data = { 'userID' : event.source.user_id}
         response = requests.post(config.PHP_SERVER+'mhealth/lineUser/queryUserInfo.php', data = data)
@@ -820,7 +820,7 @@ def handle_text_message(event):
                     template_message1,template_message2
                 ])
             status = 11
-        elif status == 7:
+        elif status == 24:
             print("7")
             foods = text.split(' ')
             # conflicts = requests.get("https://mhealth-service.feveral.me/api/food/conflict", params={"foods":foods}, verify=False).json()['conflicts']
