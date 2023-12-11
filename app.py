@@ -820,7 +820,7 @@ def handle_text_message(event):
                     template_message1,template_message2
                 ])
             status = 11
-        elif status == 24:
+        elif status == 7:
             print("7")
             foods = text.split(' ')
             # conflicts = requests.get("https://mhealth-service.feveral.me/api/food/conflict", params={"foods":foods}, verify=False).json()['conflicts']
@@ -845,6 +845,7 @@ def handle_text_message(event):
             # 使用集合運算符快速檢查兩個列表的相等元素
             disease = [int(disease_item in userDiseaseList) for disease_item in DiseaseList]
             print("椰")
+            suggestions =''
         '''
             data = {'lineID' : event.source.user_id}
             response = requests.post(config.PHP_SERVER+'mhealth/disease/queryUserDisease.php', data = data)
@@ -857,7 +858,7 @@ def handle_text_message(event):
                         disease[i] = 1
           '''
         
-            suggestions = ''
+            
             for i in range(len(disease)):
                 if disease[i] == 1:
                     diseaseMsg = utility.diseaseFood(foods, i, 'DiseaseFood.csv')
