@@ -823,19 +823,20 @@ def handle_text_message(event):
         elif status == 7:
             foods = text.split(' ')
             # conflicts = requests.get("https://mhealth-service.feveral.me/api/food/conflict", params={"foods":foods}, verify=False).json()['conflicts']
-            # print(foods)
+            print(foods)
             conflicts = utility.foodConflict(foods)
-            # print(conflicts)
+            print("衝突:"+conflicts)
             answer = utility.order(text)
             messages = []
             lst = []
             for a in answer:
                 lst.append(a[0])
             messages.append(TextSendMessage(text='建議您依照以下順序食用\n' + ' '.join(lst)))
+            print(messages)
             # print(utility.foodsMessage(conflicts))
             if len(conflicts) != 0:
                 messages.append(TextSendMessage(text='餐點中含有食物相剋:'+ utility.foodsMessage(conflicts)))
-            
+            print("看病")
             data = {'lineID' : event.source.user_id}
             response = requests.post(config.PHP_SERVER+'mhealth/disease/queryUserDisease.php', data = data)
             userDiseaseList = json.loads(response.text)
