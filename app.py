@@ -825,14 +825,14 @@ def handle_text_message(event):
             # conflicts = requests.get("https://mhealth-service.feveral.me/api/food/conflict", params={"foods":foods}, verify=False).json()['conflicts']
             print(foods)
             conflicts = utility.foodConflict(foods)
-            print("衝突:"+conflicts)
+            print(conflicts)
             answer = utility.order(text)
             messages = []
             lst = []
             for a in answer:
                 lst.append(a[0])
             messages.append(TextSendMessage(text='建議您依照以下順序食用\n' + ' '.join(lst)))
-            print(messages)
+            print(messages[0])
             # print(utility.foodsMessage(conflicts))
             if len(conflicts) != 0:
                 messages.append(TextSendMessage(text='餐點中含有食物相剋:'+ utility.foodsMessage(conflicts)))
