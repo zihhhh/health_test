@@ -849,6 +849,7 @@ def handle_text_message(event):
             for i in range(4):
                 for item in userDiseaseList:
                     if DiseaseList[i] == item['disease']:
+                        global disease
                         disease[i] = 1
             
             for i in range(len(disease)):
