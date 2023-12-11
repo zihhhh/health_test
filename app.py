@@ -1,4 +1,4 @@
-from flask import Flask,request, abort #改位置
+efrom flask import Flask,request, abort #改位置
 import gevent #改_新加
 from gevent import monkey  #改_新加
 monkey.patch_all()
@@ -840,14 +840,23 @@ def handle_text_message(event):
             print("看病")
             data = {'lineID' : event.source.user_id}
             response = requests.post(config.PHP_SERVER+'mhealth/disease/queryUserDisease.php', data = data)
+            userDiseaseList = {item['disease'] for item in json.loads(response.text)}
+            DiseaseList = ['糖尿病', '心臟病', '高血壓', '下腹突出']
+            # 使用集合運算符快速檢查兩個列表的相等元素
+            disease = [int(disease_item in userDiseaseList) for disease_item in DiseaseList]
+            print("椰")
+        '''
+            data = {'lineID' : event.source.user_id}
+            response = requests.post(config.PHP_SERVER+'mhealth/disease/queryUserDisease.php', data = data)
             userDiseaseList = json.loads(response.text)
-
+            
             DiseaseList = ['糖尿病', '心臟病', '高血壓', '下腹突出']
             for i in range(4):
                 for item in userDiseaseList:
                     if DiseaseList[i] == item['disease']:
                         disease[i] = 1
-
+          '''
+        
             suggestions = ''
             for i in range(len(disease)):
                 if disease[i] == 1:
@@ -856,6 +865,7 @@ def handle_text_message(event):
                     print(medicineMsg)
                     if len(diseaseMsg) != 0 or len(medicineMsg) != 0:
                         suggestions = suggestions + '\n' + utility.suggestMessage(diseaseMsg, medicineMsg, i)
+                        print("椰2")
             if len(suggestions) != 0:
                 messages.append(TextSendMessage(text = '因為您患有' + suggestions))
 
