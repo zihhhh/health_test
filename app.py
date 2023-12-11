@@ -844,17 +844,15 @@ def handle_text_message(event):
             data = {'lineID' : event.source.user_id}
             response = requests.post(config.PHP_SERVER+'mhealth/disease/queryUserDisease.php', data = data)
             userDiseaseList = json.loads(response.text)
-            diseases=[0,0,0,0]
+            
             DiseaseList = ['糖尿病', '心臟病', '高血壓', '下腹突出']
             for i in range(4):
                 for item in userDiseaseList:
-                    if DiseaseList[i] == item['diseases']:
-                        diseases[i] = 1
-          
-        
+                    if DiseaseList[i] == item['disease']:
+                        disease[i] = 1
             
-            for i in range(len(diseases)):
-                if diseases[i] == 1:
+            for i in range(len(disease)):
+                if disease[i] == 1:
                     diseaseMsg = utility.diseaseFood(foods, i, 'DiseaseFood.csv')
                     medicineMsg = utility.diseaseFood(foods, i, 'MedicineConflictList.csv')
                     print(medicineMsg)
