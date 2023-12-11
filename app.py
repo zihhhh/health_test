@@ -821,11 +821,12 @@ def handle_text_message(event):
                 ])
             status = 11
         elif status == 7:
+            print("7")
             foods = text.split(' ')
             # conflicts = requests.get("https://mhealth-service.feveral.me/api/food/conflict", params={"foods":foods}, verify=False).json()['conflicts']
             print(foods)
             conflicts = utility.foodConflict(foods)
-            print(conflicts)
+            #print(conflicts)
             answer = utility.order(text)
             messages = []
             lst = []
