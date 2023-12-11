@@ -846,14 +846,15 @@ def handle_text_message(event):
             userDiseaseList = json.loads(response.text)
             
             DiseaseList = ['糖尿病', '心臟病', '高血壓', '下腹突出']
+            diseases=[0,0,0,0]
             for i in range(4):
                 for item in userDiseaseList:
                     if DiseaseList[i] == item['disease']:
-                        global disease
-                        disease[i] = 1
+                       
+                        diseases[i] = 1
             
-            for i in range(len(disease)):
-                if disease[i] == 1:
+            for i in range(len(diseases)):
+                if diseases[i] == 1:
                     diseaseMsg = utility.diseaseFood(foods, i, 'DiseaseFood.csv')
                     medicineMsg = utility.diseaseFood(foods, i, 'MedicineConflictList.csv')
                     print(medicineMsg)
