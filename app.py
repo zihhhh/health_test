@@ -597,7 +597,7 @@ def handle_text_message(event):
                 TextComponent(text='$160', weight='bold', size='md', color='#111111', align='end'),
                 
                 BoxComponent(
-                    layout='vertical',spacing='md',margin='xl',
+                    layout='vertical',spacing='md',
                     contents=[
                         BoxComponent(
                     layout='horizontal',
@@ -627,7 +627,7 @@ def handle_text_message(event):
                 TextComponent(text='$160', weight='bold', size='md', color='#111111', align='end'),
                 
                 BoxComponent(
-                    layout='vertical',spacing='md',margin='xl',
+                    layout='vertical',spacing='md',
                     contents=[
                         BoxComponent(
                     layout='horizontal',
