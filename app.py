@@ -542,18 +542,25 @@ def handle_text_message(event):
             PostbackAction(label='keep health', data='/keep_health'),
             PostbackAction(label='lose weight', data='/lose_weight')
         ])
+        
+        template_message = TemplateSendMessage(alt_text='Buttons alt text', template=buttons_template)
+        line_bot_api.reply_message(event.reply_token, template_message)
+        
+    elif text == 'setting reminder2':
+        line_bot_api.reply_message(event.reply_token, [
+                                                       TextSendMessage(text = 'The appropriate weight loss rate is 0.5~1kg a week, and it needs to consume about 500~1300 kcal per day.\nBenefits of weight loss: weight loss can reduce the risk of diabetes, high blood pressure, hyperlipidemia, heart disease, stroke and other diseases, making your body healthier!'),
+                                                    TextSendMessage(text = 'You have consumed 510.0 kcal today, which is less than your basal metabolic rate of 900 kcal.'),
+                                                    TextSendMessage(text = 'Is your current weight 58 kg?'),
+                                                    ])
+    elif text == 'setting reminder3':
+        
         buttons_template2 = ButtonsTemplate(title='Weight:58 kg', text='Update record', actions=[
             PostbackAction(label='Update weight', data='/keep_health'),
             PostbackAction(label='Cancel', data='/lose_weight')
         ])
-        template_message = TemplateSendMessage(alt_text='Buttons alt text', template=buttons_template)
+        
         template_message2 = TemplateSendMessage(alt_text='Buttons alt text', template=buttons_template2)
-        #line_bot_api.reply_message(event.reply_token, template_message)
-        line_bot_api.reply_message(event.reply_token, [TemplateSendMessage(alt_text='Buttons alt text', template=buttons_template),
-                                                       TextSendMessage(text = 'The appropriate weight loss rate is 0.5~1kg a week, and it needs to consume about 500~1300 kcal per day.\nBenefits of weight loss: weight loss can reduce the risk of diabetes, high blood pressure, hyperlipidemia, heart disease, stroke and other diseases, making your body healthier!'),
-                                                    TextSendMessage(text = 'You have consumed 510.0 kcal today, which is less than your basal metabolic rate of 900 kcal.'),
-                                                    TextSendMessage(text = 'Is your current weight 58 kg?'),
-                                                    TemplateSendMessage(alt_text='Buttons alt text', template=buttons_template2)])
+        line_bot_api.reply_message(event.reply_token, template_message2)
     elif text == 'Turn on exercise reminder':
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text='You exercised for a total of 40 minutes yesterday and 75 minutes today, reaching the recommended daily average of 30 minutes of exercise.Keep it up !'))
     elif text == 'Turn on calorie reminder':
