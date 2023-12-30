@@ -579,11 +579,7 @@ def handle_text_message(event):
                     TextSendMessage(text = '1. "Tomato" and "shrimp" conflict. Toxic substances are generated/n2. "Watermelon" and "shrimp" conflict. Causes dizziness, abdominal pain, nausea, vomiting, diarrhea/n3. "Asparagus" and "scallops" conflict. People with gout constitution can easily cause the accumulation of purine when ingesting a large amount at the same time'),
                     TextSendMessage(text = 'Because you have diabetes, you should not eat more sugary foods, high-cholesterol foods, etc., such as creamy pan-fried scallops and grapes in the meal.For "high blood pressure", it is not advisable to eat more meat and products, or high-fat/high-cholesterol foods, such as creamy pan-fried scallops. If you are taking antihypertensive drugs, you should avoid eating foods high in sodium and potassium at the same time, such as grapefruit in meals.')])
     elif text == 'Recommend nearby restaurants':  
-        line_bot_api.reply_message(event.reply_token, [
-                                                       TextSendMessage(text = 'Recommend nearby restaurants'),
-                                                       TextSendMessage(text = 'Please enter the minimum calorie requirement (kcal): For example, 1000.'),
-                                            
-                                                    ])
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text = 'Please enter the minimum calorie requirement (kcal): For example, 1000.'))
     elif text == '600':
         bubble = BubbleContainer(
             direction = 'ltr',
