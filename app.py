@@ -578,6 +578,72 @@ def handle_text_message(event):
                     TextSendMessage(text = 'It is recommended that you eat in the following order: stir-fried shrimp with asparagus,tomato chicken salad, watermelon, creamy pan-fried scallops, watermelon, grapefruit'),
                     TextSendMessage(text = '1. "Tomato" and "shrimp" conflict. Toxic substances are generated/n2. "Watermelon" and "shrimp" conflict. Causes dizziness, abdominal pain, nausea, vomiting, diarrhea/n3. "Asparagus" and "scallops" conflict. People with gout constitution can easily cause the accumulation of purine when ingesting a large amount at the same time'),
                     TextSendMessage(text = 'Because you have diabetes, you should not eat more sugary foods, high-cholesterol foods, etc., such as creamy pan-fried scallops and grapes in the meal.For "high blood pressure", it is not advisable to eat more meat and products, or high-fat/high-cholesterol foods, such as creamy pan-fried scallops. If you are taking antihypertensive drugs, you should avoid eating foods high in sodium and potassium at the same time, such as grapefruit in meals.')])
+    elif text == 'Recommend nearby restaurants':  
+        line_bot_api.reply_message(event.reply_token, [
+                                                       TextSendMessage(text = 'Recommend nearby restaurants'),
+                                                       TextSendMessage(text = 'Please enter the minimum calorie requirement (kcal): For example, 1000.'),
+                                            
+                                                    ])
+    elif text == '600':
+        flex_message = FlexSendMessage(
+            direction = 'ltr',
+            body = BoxComponent(
+                layout = 'vertical',
+                contents = [BoxComponent(
+                    layout = 'vertical',
+                    contents = [
+                        TextComponent(text='Recommend nearby restaurants', weight='bold', size='xl', color='#696969')
+                    ]
+                ),
+                TextComponent(text='IMEI Beef Noodle', weight='bold', size='lg', color='#000000', flex=0),
+                BoxComponent(
+                    layout='horizontal',
+                    contents=[
+                        TextComponent(text=' ' + 'Recommend'+' ', weight='bold', size='xs', color='#ffa500', flex=0),
+                        TextComponent(text='red-braised beef noodle soup', weight='bold', size='lg', color='#2f4f4f', flex=0),
+                        TextComponent(text='$160', weight='bold', size='md', color='#111111', align='end')
+                    ]
+                ),
+                BoxComponent(
+                    layout='vertical',spacing='md',margin='xl',
+                    contents=[
+                        BoxComponent(
+                    layout='horizontal',
+                    contents=[
+                        TextComponent(text='Meal calories are: ', weight='bold', size='xs', color='#111111', flex=0),
+                        TextComponent(text='690' + 'kcal', weight='bold', size='md', color='#cd5c5c', flex=0)
+                    ]
+                )
+                    ]
+                ),
+                ImageComponent(url='https://cdn.cybassets.com/media/W1siZiIsIjI2Mjg0L3Byb2R1Y3RzLzQxOTYyNzY0LzE2OTI3ODMyNjBfZDk1Y2VmNjFkYTgyMDdkZjllY2UuanBlZyJdLFsicCIsInRodW1iIiwiNjAweDYwMCJdXQ.jpeg?sha=6870c19732d647e4', margin='none',align='center',size='4xl'),
+                BoxComponent(
+                    layout='horizontal',
+                    contents=[
+                        TextComponent(text=' ' + 'Recommend'+' ', weight='bold', size='xs', color='#ffa500', flex=0),
+                        TextComponent(text='stewed beef noodle soup $160', weight='bold', size='lg', color='#2f4f4f', flex=0),
+                        TextComponent(text='$160', weight='bold', size='md', color='#111111', align='end')
+                    ]
+                ),
+                BoxComponent(
+                    layout='vertical',spacing='md',margin='xl',
+                    contents=[
+                        BoxComponent(
+                    layout='horizontal',
+                    contents=[
+                        TextComponent(text='Meal calories are: ', weight='bold', size='xs', color='#111111', flex=0),
+                        TextComponent(text='645' + 'kcal', weight='bold', size='md', color='#cd5c5c', flex=0)
+                    ]
+                )
+                    ]
+                ),
+                ImageComponent(url='https://cdn.cybassets.com/media/W1siZiIsIjI2Mjg0L3Byb2R1Y3RzLzQxOTYyNzYzLzE2OTU4MDEzMDRfMGFhNTA2NDAxZjk5NTlkMWRjYzguanBlZyJdLFsicCIsInRodW1iIiwiNjAweDYwMCJdXQ.jpeg?sha=c329649d28caade9')
+                ]
+)  )    
+        #FlexSendMessage(alt_text = '餐點推薦', contents = beaconMessage.nearbyFood(recommendList['arr_recommend'][0]))]
+        #line_bot_api.reply_message(event.reply_token, message)  
+        line_bot_api.reply_message(event.reply_token, flex_message)
+    
     elif text == '視訊問診':
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text='視訊問診\nhttps://140.114.88.137:81/videocall.html'))
 
