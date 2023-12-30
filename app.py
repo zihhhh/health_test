@@ -624,7 +624,7 @@ def handle_text_message(event):
                     ]
                 )
                     ]
-                )
+                ),
                 #TextComponent(text='IMEI Beef Noodle', weight='bold', size='lg', color='#000000', flex=0),
                 TextComponent(text=' ' + 'Recommend'+' ', weight='bold', size='xs', color='#ffa500', flex=0),
                 TextComponent(text='stewed beef noodle soup', weight='bold', size='lg', color='#2f4f4f', flex=0),
