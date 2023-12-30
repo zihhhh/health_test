@@ -585,6 +585,7 @@ def handle_text_message(event):
                                             
                                                     ])
     elif text == '600':
+        elif text == '600':
         bubble = BubbleContainer(
             direction = 'ltr',
             body = BoxComponent(
@@ -613,7 +614,19 @@ def handle_text_message(event):
                     ]
                 ),
                 ImageComponent(url='https://cdn.cybassets.com/media/W1siZiIsIjI2Mjg0L3Byb2R1Y3RzLzQxOTYyNzY0LzE2OTI3ODMyNjBfZDk1Y2VmNjFkYTgyMDdkZjllY2UuanBlZyJdLFsicCIsInRodW1iIiwiNjAweDYwMCJdXQ.jpeg?sha=6870c19732d647e4', margin='none',align='center',size='4xl'),
-                TextComponent(text='IMEI Beef Noodle', weight='bold', size='lg', color='#000000', flex=0),
+                BoxComponent(
+                    layout='vertical',spacing='md',margin='xl',
+                    contents=[
+                        BoxComponent(
+                    layout='horizontal',
+                    contents=[
+                        TextComponent(text='IMEI Beef Noodle', weight='bold', size='lg', color='#000000', flex=0),
+                        
+                    ]
+                )
+                    ]
+                )
+                #TextComponent(text='IMEI Beef Noodle', weight='bold', size='lg', color='#000000', flex=0),
                 TextComponent(text=' ' + 'Recommend'+' ', weight='bold', size='xs', color='#ffa500', flex=0),
                 TextComponent(text='stewed beef noodle soup', weight='bold', size='lg', color='#2f4f4f', flex=0),
                 TextComponent(text='$160', weight='bold', size='md', color='#111111', align='end'),
@@ -636,8 +649,6 @@ def handle_text_message(event):
 )  )    
         message = FlexSendMessage(alt_text = 'Recommend nearby restaurants', contents = bubble)
         line_bot_api.reply_message(event.reply_token, message)
-           
-        #line_bot_api.reply_message(event.reply_token, flex_message)
     
     elif text == '視訊問診':
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text='視訊問診\nhttps://140.114.88.137:81/videocall.html'))
