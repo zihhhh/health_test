@@ -538,7 +538,7 @@ def handle_text_message(event):
         line_bot_api.reply_message(event.reply_token, template_message)
 
     elif text == 'setting reminder':
-        buttons_template = ButtonsTemplate(title='setting reminder', actions=[
+        buttons_template = ButtonsTemplate(title='setting reminder',  text='Stay healthy',actions=[
             PostbackAction(label='keep health', data='/keep_health'),
             PostbackAction(label='lose weight', data='/lose_weight')
         ])
