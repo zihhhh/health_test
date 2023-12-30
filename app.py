@@ -585,7 +585,6 @@ def handle_text_message(event):
                                             
                                                     ])
     elif text == '600':
-        elif text == '600':
         bubble = BubbleContainer(
             direction = 'ltr',
             body = BoxComponent(
