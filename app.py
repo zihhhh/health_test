@@ -548,7 +548,7 @@ def handle_text_message(event):
         ])
         template_message = TemplateSendMessage(alt_text='Buttons alt text', template=buttons_template)
         template_message2 = TemplateSendMessage(alt_text='Buttons alt text', template=buttons_template2)
-        line_bot_api.reply_message(event.reply_token, template_message)
+        #line_bot_api.reply_message(event.reply_token, template_message)
         line_bot_api.reply_message(event.reply_token, [TemplateSendMessage(alt_text='Buttons alt text', template=buttons_template),
                                                        TextSendMessage(text = 'The appropriate weight loss rate is 0.5~1kg a week, and it needs to consume about 500~1300 kcal per day.\nBenefits of weight loss: weight loss can reduce the risk of diabetes, high blood pressure, hyperlipidemia, heart disease, stroke and other diseases, making your body healthier!'),
                                                     TextSendMessage(text = 'You have consumed 510.0 kcal today, which is less than your basal metabolic rate of 900 kcal.'),
