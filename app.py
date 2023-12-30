@@ -640,9 +640,9 @@ def handle_text_message(event):
                 ImageComponent(url='https://cdn.cybassets.com/media/W1siZiIsIjI2Mjg0L3Byb2R1Y3RzLzQxOTYyNzYzLzE2OTU4MDEzMDRfMGFhNTA2NDAxZjk5NTlkMWRjYzguanBlZyJdLFsicCIsInRodW1iIiwiNjAweDYwMCJdXQ.jpeg?sha=c329649d28caade9')
                 ]
 )  )    
-        #FlexSendMessage(alt_text = '餐點推薦', contents = beaconMessage.nearbyFood(recommendList['arr_recommend'][0]))]
-        #line_bot_api.reply_message(event.reply_token, message)  
-        line_bot_api.reply_message(event.reply_token, flex_message)
+        FlexSendMessage(alt_text = '餐點推薦', contents = flex_message)
+        line_bot_api.reply_message(event.reply_token, message)    
+        #line_bot_api.reply_message(event.reply_token, flex_message)
     
     elif text == '視訊問診':
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text='視訊問診\nhttps://140.114.88.137:81/videocall.html'))
