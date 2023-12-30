@@ -536,6 +536,41 @@ def handle_text_message(event):
         ])
         template_message = TemplateSendMessage(alt_text='Buttons alt text', template=buttons_template)
         line_bot_api.reply_message(event.reply_token, template_message)
+
+    elif text == 'setting reminder':
+        buttons_template = ButtonsTemplate(title='setting reminder', actions=[
+            PostbackAction(label='keep health', data='/keep_health'),
+            PostbackAction(label='lose weight', data='/lose_weight')
+        ])
+        buttons_template2 = ButtonsTemplate(title='Weight:58 kg', text='Update record', actions=[
+            PostbackAction(label='Update weight', data='/keep_health'),
+            PostbackAction(label='Cancel', data='/lose_weight')
+        ])
+        template_message = TemplateSendMessage(alt_text='Buttons alt text', template=buttons_template)
+        template_message2 = TemplateSendMessage(alt_text='Buttons alt text', template=buttons_template2)
+        line_bot_api.reply_message(event.reply_token, template_message)
+        line_bot_api.reply_message(event.reply_token, [TemplateSendMessage(alt_text='Buttons alt text', template=buttons_template),
+                                                       TextSendMessage(text = 'The appropriate weight loss rate is 0.5~1kg a week, and it needs to consume about 500~1300 kcal per day.\nBenefits of weight loss: weight loss can reduce the risk of diabetes, high blood pressure, hyperlipidemia, heart disease, stroke and other diseases, making your body healthier!'),
+                                                    TextSendMessage(text = 'You have consumed 510.0 kcal today, which is less than your basal metabolic rate of 900 kcal.'),
+                                                    TextSendMessage(text = 'Is your current weight 58 kg?'),
+                                                    TemplateSendMessage(alt_text='Buttons alt text', template=buttons_template2)])
+    elif text == 'Turn on exercise reminder':
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='You exercised for a total of 40 minutes yesterday and 75 minutes today, reaching the recommended daily average of 30 minutes of exercise.Keep it up !'))
+    elif text == 'Turn on calorie reminder':
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='You have consumed 510 calories today, still less than the basal metabolic rate of 900 calories.'))           
+
+    elif text == 'health counselling':
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='Please enter your health situation'))
+    elif text == 'headache':
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='If you have diabetes and are experiencing headaches, it is crucial to monitor blood sugar levels regularly. Ensure they stay within the target range. Maintain a consistent eating schedule to avoid abrupt fluctuations in blood sugar. Stay well-hydrated, and be certain to take your medications as prescribed. If headaches persist or worsen, seek immediate medical attention for professional advice and evaluation.'))    
+    
+    elif text == 'health counselling':
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='creamy pan-fried scallops, stir-fried shrimp with asparagus, tomato chicken salad, watermelon, grapefruit'))
+    elif text == 'creamy pan-fried scallops, stir-fried shrimp with asparagus, tomato chicken salad, watermelon, grapefruit':
+        line_bot_api.reply_message(event.reply_token, [
+                    TextSendMessage(text = 'It is recommended that you eat in the following order: stir-fried shrimp with asparagus,tomato chicken salad, watermelon, creamy pan-fried scallops, watermelon, grapefruit'),
+                    TextSendMessage(text = '1. "Tomato" and "shrimp" conflict. Toxic substances are generated/n2. "Watermelon" and "shrimp" conflict. Causes dizziness, abdominal pain, nausea, vomiting, diarrhea/n3. "Asparagus" and "scallops" conflict. People with gout constitution can easily cause the accumulation of purine when ingesting a large amount at the same time'),
+                    TextSendMessage(text = 'Because you have diabetes, you should not eat more sugary foods, high-cholesterol foods, etc., such as creamy pan-fried scallops and grapes in the meal.For "high blood pressure", it is not advisable to eat more meat and products, or high-fat/high-cholesterol foods, such as creamy pan-fried scallops. If you are taking antihypertensive drugs, you should avoid eating foods high in sodium and potassium at the same time, such as grapefruit in meals.')])
     elif text == '視訊問診':
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text='視訊問診\nhttps://140.114.88.137:81/videocall.html'))
 
