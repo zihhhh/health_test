@@ -585,7 +585,7 @@ def handle_text_message(event):
                                             
                                                     ])
     elif text == '600':
-        flex_message = FlexSendMessage(
+        bubble = BubbleContainer(
             direction = 'ltr',
             body = BoxComponent(
                 layout = 'vertical',
@@ -640,7 +640,7 @@ def handle_text_message(event):
                 ImageComponent(url='https://cdn.cybassets.com/media/W1siZiIsIjI2Mjg0L3Byb2R1Y3RzLzQxOTYyNzYzLzE2OTU4MDEzMDRfMGFhNTA2NDAxZjk5NTlkMWRjYzguanBlZyJdLFsicCIsInRodW1iIiwiNjAweDYwMCJdXQ.jpeg?sha=c329649d28caade9')
                 ]
 )  )    
-        message = FlexSendMessage(alt_text = 'Recommend nearby restaurants', contents = flex_message)
+        message = FlexSendMessage(alt_text = 'Recommend nearby restaurants', contents = bubble)
         line_bot_api.reply_message(event.reply_token, message)
            
         #line_bot_api.reply_message(event.reply_token, flex_message)
