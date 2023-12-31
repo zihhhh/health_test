@@ -1179,7 +1179,7 @@ def handle_content_message(event):
         print("辨識結果： ", concepts[0].name, ', ', concepts[1].name, ', ', concepts[2].name)
         foodRecognitionURI=imageLiffURI+'&food1='+concepts[0].name+'&food2='+concepts[1].name+'&food3='+concepts[2].name
         print("英文:"+foodRecognitionURI) 
-        '''
+        
         translator = googletrans.Translator()
         transTW = [
             translator.translate(concepts[0].name, dest = 'zh-tw').text,
@@ -1215,7 +1215,7 @@ def handle_content_message(event):
         conflicts = utility.foodConflict(transTW)
         messages = []
         print("哈:"+foodRecognitionURI) 
-        '''
+        
         buttons_template = TemplateSendMessage(
         alt_text='Buttons Template',
         template=ButtonsTemplate(
@@ -1235,7 +1235,7 @@ def handle_content_message(event):
         print(messages[0])
         line_bot_api.reply_message(event.reply_token, messages)
         print("哈哈哈3")
-        '''
+        
         if len(conflicts) != 0:
             messages.append(TextSendMessage(text='餐點中含有食物相剋:'+ utility.foodsMessage(conflicts)))
 
@@ -1263,7 +1263,7 @@ def handle_content_message(event):
         line_bot_api.reply_message(event.reply_token, messages)
     else:
         return  
-'''
+
 
 
 
