@@ -578,6 +578,14 @@ def handle_text_message(event):
                     TextSendMessage(text = 'It is recommended that you eat in the following order: stir-fried shrimp with asparagus,tomato chicken salad, watermelon, creamy pan-fried scallops, watermelon, grapefruit'),
                     TextSendMessage(text = '1. "Tomato" and "shrimp" conflict. Toxic substances are generated/n2. "Watermelon" and "shrimp" conflict. Causes dizziness, abdominal pain, nausea, vomiting, diarrhea/n3. "Asparagus" and "scallops" conflict. People with gout constitution can easily cause the accumulation of purine when ingesting a large amount at the same time'),
                     TextSendMessage(text = 'Because you have diabetes, you should not eat more sugary foods, high-cholesterol foods, etc., such as creamy pan-fried scallops and grapes in the meal.For "high blood pressure", it is not advisable to eat more meat and products, or high-fat/high-cholesterol foods, such as creamy pan-fried scallops. If you are taking antihypertensive drugs, you should avoid eating foods high in sodium and potassium at the same time, such as grapefruit in meals.')])
+    elif text == '123':
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='You had one episode of elevated blood pressure today. Please take note.'))
+    elif text == 'Check the blood pressure records of the week':
+        line_bot_api.reply_message(event.reply_token, ImageSendMessage(original_content_url='https://imgur.com/FdLrZHF', 
+                                                                        preview_image_url='https://imgur.com/FdLrZHF'))
+    elif text == '1234':
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='In your recent blood pressure check on 12/31, it exceeded 140/90 mmHg. Please consult your doctor about the need for further treatment to prevent potential heart disease or stroke risks./nFor readings on 12/28 and 12/30, falling between 120/80 and 140/90 mmHg, it indicates prehypertension. Immediate lifestyle changes are recommended, including quitting smoking and alcohol, weight reduction, regular exercise, and adopting a healthy diet with low-sodium, low-fat, and plenty of fruits and vegetables. It is also advisable to seek medical evaluation for ongoing blood pressure monitoring.'))   
+   
     elif text == 'Recommend nearby restaurants':  
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text = 'Please enter the minimum calorie requirement (kcal): For example, 1000.'))
     elif text == '600':
