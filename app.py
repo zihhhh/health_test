@@ -537,7 +537,7 @@ def handle_text_message(event):
         template_message = TemplateSendMessage(alt_text='Buttons alt text', template=buttons_template)
         line_bot_api.reply_message(event.reply_token, template_message)
 
-    elif text == 'setting reminder':
+    elif text == 'setting goal':
         buttons_template = ButtonsTemplate(title='setting reminder',  text='Stay healthy',actions=[
             PostbackAction(label='keep health', data='/keep_health'),
             PostbackAction(label='lose weight', data='/lose_weight')
@@ -546,13 +546,13 @@ def handle_text_message(event):
         template_message = TemplateSendMessage(alt_text='Buttons alt text', template=buttons_template)
         line_bot_api.reply_message(event.reply_token, template_message)
         
-    elif text == 'setting reminder2':
+    elif text == 'setting goal2':
         line_bot_api.reply_message(event.reply_token, [
                                                        TextSendMessage(text = 'The appropriate weight loss rate is 0.5~1kg a week, and it needs to consume about 500~1300 kcal per day.\nBenefits of weight loss: weight loss can reduce the risk of diabetes, high blood pressure, hyperlipidemia, heart disease, stroke and other diseases, making your body healthier!'),
                                                     TextSendMessage(text = 'You have consumed 510.0 kcal today, which is less than your basal metabolic rate of 900 kcal.'),
                                                     TextSendMessage(text = 'Is your current weight 58 kg?'),
                                                     ])
-    elif text == 'setting reminder3':
+    elif text == 'setting goal3':
         
         buttons_template2 = ButtonsTemplate(title='Weight:58 kg', text='Update record', actions=[
             PostbackAction(label='Update weight', data='/keep_health'),
