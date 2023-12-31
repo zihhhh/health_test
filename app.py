@@ -1117,7 +1117,7 @@ def aqi(event):
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text='空氣品質'+site_list[i]["status"]+'   '+'AQI'+ str(site_list[i]["aqi"])))
                 break
         
-'''
+
 # Other Message Type
 @handler.add(MessageEvent,message=(ImageMessage, VideoMessage, AudioMessage))
 def handle_content_message(event):
@@ -1260,152 +1260,8 @@ def handle_content_message(event):
         line_bot_api.reply_message(event.reply_token, messages)
     else:
         return  
-'''
-@handler.add(MessageEvent,message=(ImageMessage, VideoMessage, AudioMessage))
-def handle_content_message(event):
-    # Whether this message is image or not
-    if isinstance(event.message, ImageMessage):
-        print("h2")
-        global status
-        ext = 'jpg'
-        message_content = line_bot_api.get_message_content(event.message.id)
-        print("h3")
-        print(event.message.id)
-        dir_path = '/opt/render/project/src/static/tmp'
-        os.makedirs(dir_path, exist_ok=True)
-        # Write image into a temporary file
-        with tempfile.NamedTemporaryFile(dir='/opt/render/project/src/static/tmp', delete=False) as tf:
-        #with tempfile.NamedTemporaryFile(dir='/opt/render/project/src/static/tmp', prefix=ext + '-', delete=False) as tf:
-            print("h4")
-            for chunk in message_content.iter_content():
-                print("h5")
-                tf.write(chunk)
-                print("h6")
-        # Change temporary file path with new one.
-        tempfile_path = tf.name
-        dist_path = tempfile_path + '.' + ext
-        dist_name = os.path.basename(dist_path)
-        os.rename(tempfile_path, dist_path)
-        print("h4")
-        # Upload image to mhealth-server        
-        url = 'https://selab1.cs.nthu.edu.tw/api/image?ext='+ext
-        files = [('file', open(dist_path, 'rb'))]
-        print("files: ", files)
-        res = requests.post(url, files=files, verify=False)
-        print("image upload",res.status_code)
-        print(res.json().get('url'))
 
-        # Liff
-        imageLiffURI=config.ADD_FOOD_CAMERA_LIFF_URI+'?image='+res.json().get('url')[-36::1]
-        print('liff compose:'+imageLiffURI)
 
-        # Image path inside Heroku server
-        imageUrl='https://test-mwmy.onrender.com/'+os.path.join('static', 'tmp', dist_name)
-        print('imageURL (heroku): ', imageUrl)
-        concept_request = service_pb2.PostModelOutputsRequest(
-            # This is the model ID of a publicly available Food model.
-            model_id='bd367be194cf45149e75f01d59f77ba7',
-            inputs=[
-                resources_pb2.Input(data=resources_pb2.Data(image=resources_pb2.Image(url=imageUrl)))
-        ])
-        
-        print('send concept request')
-        response = stub.PostModelOutputs(concept_request, metadata=metadataE)
-        print('concept model response: ', response)
-
-        if response.status.code != status_code_pb2.SUCCESS:
-            raise Exception("Request failed, status code: " + str(response.status.code))
-        # for concept in response.outputs[0].data.concepts:
-        #     # print('%12s: %.2f' % (concept.name, concept.value))
-        concepts = response.outputs[0].data.concepts
-        print("辨識結果： ", concepts[0].name, ', ', concepts[1].name, ', ', concepts[2].name)
-        foodRecognitionURI=imageLiffURI+'&food1='+concepts[0].name+'&food2='+concepts[1].name+'&food3='+concepts[2].name
-        print("英文:"+foodRecognitionURI) 
-        translator = googletrans.Translator()
-        '''
-        transTW = [
-            translator.translate(concepts[0].name, dest = 'zh-tw').text,
-            translator.translate(concepts[1].name, dest = 'zh-tw').text,
-            translator.translate(concepts[2].name, dest = 'zh-tw').text
-        ]
-        '''
-        # with open('tranlateList.csv', newline='') as csvfile:
-        #     # 讀取 CSV 檔案內容
-        #     rows = csv.reader(csvfile)
-        #     # 以迴圈輸出每一列  
-        #     print(print("beer: "), translator.translate('beer', dest='zh-tw').text)
-        #     transTW = [
-        #         translator.translate('beer', dest='zh-tw', src='en'),
-        #         translator.translate(concepts[1].name,dest='zh-TW',src='en').text,
-        #         translator.translate(concepts[2].name,dest='zh-TW',src='en').text
-        #     ]
-        
-        #     for row in rows:
-        #         for i in range(0,3):
-        #             if concepts[i].name in row:
-        #                 transTW[i] = row[1]
-        #                 break
-        
-       # print("辨識結果中文："+transTW[0]+','+transTW[1]+','+transTW[2])
-        foodRecognitionURI=imageLiffURI+'&food1='+concepts[0]+'&food2='+concepts[1]+'&food3='+concepts[2]
-        #print("轉換前:"+foodRecognitionURI)
-        # 將每個字串轉換成 UTF-8 編碼
-        #transTW_utf8 = [parse.quote(s) for s in transTW]
-        #print(transTW_utf8)
-        #foodRecognitionURI=imageLiffURI+'&food1='+transTW_utf8[0]+'&food2='+transTW_utf8[1]+'&food3='+transTW_utf8[2]
-        print("轉換後:"+foodRecognitionURI)
-        conflicts = utility.foodConflict(transTW)
-        messages = []
-        print("哈:"+foodRecognitionURI) 
-        buttons_template = TemplateSendMessage(
-        alt_text='Buttons Template',
-        template=ButtonsTemplate(
-            title='食物辨識完成',
-            text='點擊下方連結以進一步新增飲食',
-            thumbnail_image_url=res.json().get('url'),
-            actions=[
-                URITemplateAction(
-                    label='辨識結果',
-                    uri=foodRecognitionURI
-                    )
-                ]
-            )
-        )
-        print("哈哈哈2")
-        messages.append(buttons_template)
-        print(messages[0])
-        line_bot_api.reply_message(event.reply_token, messages)
-        print("哈哈哈3")
-'''
-        if len(conflicts) != 0:
-            messages.append(TextSendMessage(text='餐點中含有食物相剋:'+ utility.foodsMessage(conflicts)))
-
-        data = {'lineID' : event.source.user_id}
-        response = requests.post(config.PHP_SERVER+'mhealth/disease/queryUserDisease.php', data = data)
-        userDiseaseList = json.loads(response.text)
-
-        DiseaseList = ['糖尿病', '心臟病', '高血壓', '下腹突出']
-        for i in range(4):
-            for item in userDiseaseList:
-                if DiseaseList[i] == item['disease']:
-                    disease[i] = 1
-
-        suggestions = ''
-        for i in range(len(disease)):
-            if disease[i] == 1:
-                diseaseMsg = utility.diseaseFood(transTW, i, 'DiseaseFood.csv')
-                medicineMsg = utility.diseaseFood(transTW, i, 'MedicineConflictList.csv')
-                print(medicineMsg)
-                if len(diseaseMsg) != 0 or len(medicineMsg) != 0:
-                    suggestions = suggestions + '\n' + utility.suggestMessage(diseaseMsg, medicineMsg, i)
-        if len(suggestions) != 0:
-            messages.append(TextSendMessage(text = '因為您患有' + suggestions))
-
-        line_bot_api.reply_message(event.reply_token, messages)
-    
-    else:
-        return
-        '''
 
 
 @handler.add(MessageEvent, message=FileMessage)
