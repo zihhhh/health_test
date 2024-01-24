@@ -1655,7 +1655,7 @@ def handle_postback(event):
             # 如果 dis_ch 為空，則表示沒有疾病，將其設置為 '無'
             dis = dis_ch if dis_ch else '無特殊疾病'
            
-            tttt= dis+"，"+ttt
+            tttt= "患有"+ttt+"，"+dis
             print(tttt)
             print("使用chat gpt")
             messages = [
