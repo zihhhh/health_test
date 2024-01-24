@@ -1640,7 +1640,7 @@ def handle_postback(event):
             }
             response = requests.post(config.PHP_SERVER+'mhealth/info/recordInfo.php', data = data)
             print(response.text)
-            ttt= str("收縮壓："+sbp+"舒張壓："+dbp+"脈搏"+pulse)
+            ttt= str("收縮壓："+sbp+"、"+"舒張壓："+dbp+"、"+"脈搏"+pulse)
             print("哈")
             print(ttt)
             data2 = {'lineID' : event.source.user_id}
