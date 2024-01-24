@@ -346,7 +346,7 @@ def handle_text_message(event):
             TextSendMessage(text='請輸入您的身體狀況')
         ])    
         status = 20
-    elif text =="飲食順序建議":
+    elif text =="飲食健康建議":
             line_bot_api.reply_message(event.reply_token, [
                 TextSendMessage(text='請輸入您欲食用的食物名稱')
             ])    
