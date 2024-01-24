@@ -1641,17 +1641,28 @@ def handle_postback(event):
             response = requests.post(config.PHP_SERVER+'mhealth/info/recordInfo.php', data = data)
             print(response.text)
             ttt= str("收縮壓："+sbp+"舒張壓："+dbp+"脈搏"+pulse)
-            
-           
-            
+            print("哈")
             print(ttt)
+            data2 = {'lineID' : event.source.user_id}
+            response = requests.post(config.PHP_SERVER+'mhealth/disease/queryUserDisease.php', data = data2)
+            userDiseaseList = {item['disease'] for item in json.loads(response.text)}
+            DiseaseList = ['糖尿病', '心臟病', '高血壓', '下腹突出']
+            # 使用集合運算符快速檢查兩個列表的相等元素
+            disease = [int(disease_item in userDiseaseList) for disease_item in DiseaseList]
+            # 過濾掉為 0 的元素，並用逗號分隔拼接成字符串
+            dis_ch = '、 '.join(d for d, flag in zip(DiseaseList, disease) if flag == 1)
+            # 如果 dis_ch 為空，則表示沒有疾病，將其設置為 '無'
+            dis = dis_ch if dis_ch else '無特殊疾病'
+           
+            tttt= dis+"，"+ttt
+            print(tttt)
             print("使用chat gpt")
             messages = [
                 #賦予人設
                 {'role': 'system', 'content': '你現在是一位醫生，請給予以下身體狀況建議，限200字以內'}, 
     
                 #提出問題
-                {'role': 'user','content': ttt}
+                {'role': 'user','content': tttt}
                 ]
             response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
