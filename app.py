@@ -798,12 +798,13 @@ def handle_text_message(event):
                 {'role': 'user','content': event.message.text}
                 ]
             response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
+            model="gpt-4-turbo-preview",
             #max_tokens=128,
             temperature=0.5,
             messages=messages)
             content = response['choices'][0]['message']['content']
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content.strip()))
+            status = 0
         elif status == 21:    
             print("哈")
             data = {'lineID' : event.source.user_id}
@@ -834,6 +835,7 @@ def handle_text_message(event):
             messages=messages)
             content = response['choices'][0]['message']['content']
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content.strip()))
+            status = 0
         elif status == 22:    
             
             #line_bot_api.reply_message(event.reply_token,TextSendMessage(text="努力生成中，請稍後 (`・ω・´)"))
@@ -852,7 +854,7 @@ def handle_text_message(event):
             messages=messages)
             content = response['choices'][0]['message']['content']
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content.strip()))    
-        
+            status = 0
         elif status == 3: # water intake
             if not isNum(text):
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text='格式錯誤，請重新輸入'))
