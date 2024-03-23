@@ -902,7 +902,7 @@ def handle_text_message(event):
                     else:
                         actionList.append(PostbackAction(label=name, data=name+'@'+inputTime))
                 else:
-                    carouselColumn = CarouselColumn(text='sport',title='運動種類', actions=actionList)
+                    carouselColumn = CarouselColumn(text='sport',title='運動種類', actions=actionList,color='#003060')
                     columns.append(carouselColumn)
                     colMax = colMax - 1
                     actionList = []
@@ -915,7 +915,7 @@ def handle_text_message(event):
             if len(actionList) > 0 and colMax > 0: #有剩餘的空間(每個column有3個選項)
                 while len(actionList) < 3:
                     actionList.append(PostbackAction(label='無',data='/None'))
-                carouselColumn = CarouselColumn(text='sport',title='運動種類', actions=actionList)
+                carouselColumn = CarouselColumn(text='sport',title='運動種類', actions=actionList,color='#003060')
                 columns.append(carouselColumn)
                 actionList = []
 
