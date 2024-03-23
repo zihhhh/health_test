@@ -1718,8 +1718,8 @@ def handle_postback(event):
             buttons_template = ButtonsTemplate(title='新增運動紀錄',text=name, actions=[PostbackAction(label='時間: '+time+'分鐘', data='/None')])
             template_message = TemplateSendMessage(alt_text='運動資訊', template=buttons_template)
             confirm_template = ConfirmTemplate(text='確認或取消',actions=[
-                    PostbackAction(label='確認',data='/sportrecord'+name+"@"+time),
-                    PostbackAction(label='取消',data='/cancel')])
+                    PostbackAction(label='確認',data='/sportrecord'+name+"@"+time,color='#003060'),
+                    PostbackAction(label='取消',data='/cancel',color='#003060')])
             template_message2 = TemplateSendMessage(alt_text='新增記錄確認', template=confirm_template)
             line_bot_api.reply_message(event.reply_token, [template_message,template_message2])
         elif status == 14:
