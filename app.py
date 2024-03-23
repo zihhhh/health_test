@@ -785,9 +785,9 @@ def handle_text_message(event):
             # 如果 dis_ch 為空，則表示沒有疾病，將其設置為 '無'
             dis = dis_ch if dis_ch else '無特殊疾病'
             if dis=='無':
-                content_gpt='你現在是一位醫生，請給予以下身體狀況建議，限200字以內'
+                content_gpt='你現在是一位醫生，請給予以下身體狀況建議，限200字以內，並使用繁體中文回答'
             else:
-                content_gpt='擁有'+ dis +'請給予以下身體狀況建議，限200字以內'
+                content_gpt='擁有'+ dis +'請給予以下身體狀況建議，限200字以內，並使用繁體中文回答'
             print(content_gpt)
             print("使用chat gpt")
             messages = [
@@ -818,7 +818,7 @@ def handle_text_message(event):
             # 如果 dis_ch 為空，則表示沒有疾病，將其設置為 '無'
             dis = dis_ch if dis_ch else '無特殊疾病'
            
-            content_gpt='請根據以下身體狀況:'+ dis + '，給予以下食物食用順序的建議，限200字以內'
+            content_gpt='請根據以下身體狀況:'+ dis + '，給予以下食物食用順序的建議，限200字以內，並使用繁體中文回答'
             print(content_gpt)
         
             messages = [
@@ -829,7 +829,7 @@ def handle_text_message(event):
                 {'role': 'user','content': event.message.text}
                 ]
             response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
+            model="gpt-4-turbo-preview",
             #max_tokens=128,
             temperature=0.5,
             messages=messages)
