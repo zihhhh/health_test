@@ -17,14 +17,15 @@ from linebot.models import (
 
 import config
 
-def newRecord():
+def newRecord(event):
+    user_id = event.source.user_id
     message = ImagemapSendMessage(
         base_url='https://i.imgur.com/t5E9wz1.png',
         alt_text='this is an imagemap',
         base_size=BaseSize(height=694, width=1040),
         actions=[
             URIImagemapAction(
-                link_uri=config.ADD_FOOD_MANUALLY_LIFF_URI,
+                link_uri='https://selab1.cs.nthu.edu.tw/inputfoodpage/'+user_id,
                 area=ImagemapArea(
                     x=0, y=0, width=346, height=346
                 )
