@@ -337,7 +337,7 @@ def handle_text_message(event):
         return
 
     if text == '新增紀錄': #新增紀錄
-        line_bot_api.reply_message(event.reply_token, ImagemapMsg.newRecord())
+        line_bot_api.reply_message(event.reply_token, ImagemapMsg.newRecord(event))
     elif text == 'id':
         line_bot_api.reply_message(event.reply_token, TextSendMessage(event.source.user_id))
     #新功能
