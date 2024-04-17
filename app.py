@@ -139,6 +139,8 @@ rA = 'A. 大部分坐著'
 rB = 'B. 多為三十分內的走動'
 rC = 'C. 規律運動且超過三十分'
 rD = 'D. 每次超過一小時劇烈運動'
+GHG_emission_database_entity_list = ['米飯', '小麥', '大麥', '麥片', '玉米', '馬鈴薯', '木薯', '甜菜糖', '蔗糖', '牛肉', '豬肉', '羊肉', '禽肉', '養殖魚', '養殖蝦', '蛋', '起司', '豆腐', '花生', '豌豆', '其他豆類', '高麗菜', '番茄', '洋蔥、韭菜', '其他蔬菜', '蘋果', '香蕉', '莓果、葡萄', '柑橘類水果', '其他水果', '咖啡', '牛奶', '豆漿', '葡萄酒', '黑巧克力', '堅果']
+
 
 # the model of clarifai , [0] for TW , [1] for EN
 # (Deprecated)
@@ -347,15 +349,22 @@ def handle_text_message(event):
         ])    
         status = 20
     elif text =="飲食健康建議":
-            line_bot_api.reply_message(event.reply_token, [
-                TextSendMessage(text='請輸入您欲食用的食物名稱')
-            ])    
-            status = 21
+        line_bot_api.reply_message(event.reply_token, [
+            TextSendMessage(text='請輸入您欲食用的食物名稱')
+        ])    
+        status = 21
     elif text =="運動記錄規劃":
-            line_bot_api.reply_message(event.reply_token, [
-                TextSendMessage(text='請輸入您的運動目標及運動種類 (如:一周消耗5000卡、跑步)：')
-            ])    
-            status = 22
+        line_bot_api.reply_message(event.reply_token, [
+            TextSendMessage(text='請輸入您的運動目標及運動種類 (如:一周消耗5000卡、跑步)：')
+        ])    
+        status = 22
+    elif text =="飲食碳排放量計算":
+        line_bot_api.reply_message(event.reply_token, [
+            TextSendMessage(text='請輸入您欲計算的各項食材克數 (如:牛肉=120/米飯=200)：'),
+            TextSendMessage(text='以下為可輸入的食材名稱\n<<====澱粉、醣類====>>\n米飯\n小麥\n大麥\n麥片\n玉米\n馬鈴薯\n木薯\n甜菜糖\n蔗糖\n<<=====蛋白質類=====>>\n牛肉\n豬肉\n羊肉\n禽肉\n養殖魚\n養殖蝦\n蛋\n起司\n豆腐\n花生\n豌豆\n其他豆類\n<<======蔬菜類======>>\n高麗菜\n番茄\n洋蔥、韭菜\n其他蔬菜\n<<======水果類======>>\n蘋果\n香蕉\n莓果、葡萄\n柑橘類水果\n其他水果\n<<=======飲品=======>>\n咖啡\n牛奶\n豆漿\n葡萄酒\n<<=======其他=======>>\n黑巧克力\n堅果')
+        ])    
+        status = 23  
+
     elif text =="空氣品質查詢":
         message = TextSendMessage(
                 text='點選定位並分享位置訊息以獲取空氣品質資訊',
@@ -855,6 +864,71 @@ def handle_text_message(event):
             content = response['choices'][0]['message']['content']
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content.strip()))    
             status = 0
+            
+          elif status == 23: # GHG emission record
+           
+            print("status == 23")
+            emi_empty_flag = 0
+            
+            # ex: 牛肉=200/小麥=100
+            ghgRecord = event.message.text.split('/')
+            entity_name = []    # ex: ['牛肉', '小麥']
+            entity_value = []   # ex: [200, 100]
+            
+            for i in range( 0, len(ghgRecord) ):
+                if ghgRecord[i].split('=')[0] not in GHG_emission_database_entity_list:
+                    emi_empty_flag = 1
+                    break
+                if ghgRecord[i] not in entity_name:
+                    entity_name.append(ghgRecord[i].split('=')[0])
+                    entity_value.append(float(ghgRecord[i].split('=')[1]))
+                else:
+                    entity_value[entity_name.index(ghgRecord[i].split('=')[0])] += float(ghgRecord[i].split('=')[1])
+
+            
+            # 有無效 Entity (資料庫找不到)
+            if emi_empty_flag == 1:
+                line_bot_api.reply_message(event.reply_token,TextSendMessage(text='請輸入有效的食材'))
+            
+            # Entity 皆有效
+            else:
+                # 開始查詢資料庫
+                entity_emission = []    # ex: [99.48, 1.57]
+                for i in range( 0, len(entity_name) ):
+                    data = {'Entity' : entity_name[i]}
+                    response = requests.post(config.PHP_SERVER+'mhealth/queryGHG.php', data = data)
+                    entity_emission.append( float(json.loads(response.text)[0]['GHG_emissions_per_kilogram']) )
+                    
+                eneity_string = ""
+                totalGHG = 0.0
+                
+                for i in range( 0, len(entity_name) ):
+                    eneity_string = eneity_string + entity_name[i]+str(entity_value[i])+"公克、"
+                    totalGHG = totalGHG + float(entity_value[i]) / 1000 * float(entity_emission[i])
+                    print(eneity_string)
+                
+                print(eneity_string)
+                print("使用chat gpt")
+    
+                messages = [
+                    #賦予人設
+                    {'role': 'system', 'content': '以下為吃一餐的食材與消耗的碳排放量，請判斷該碳排放量的多寡，並給予關於在食材的選擇上減少碳排量的評論與建議，限100字以內'}, 
+        
+                    #提出問題 ([:-1]是要去掉最後的頓號)
+                    {'role': 'user','content': "食用了"+eneity_string[:-1]+"，碳排放量總共"+str(totalGHG)+"公斤"}
+                    ]
+                    
+                response = openai.ChatCompletion.create(
+                    model="gpt-4-turbo-preview",
+                    #max_tokens=128,
+                    temperature=0.5,
+                    messages=messages)
+                content = response['choices'][0]['message']['content']
+                line_bot_api.reply_message(event.reply_token,TextSendMessage(text="碳排放量總共"+str(totalGHG)+"公斤\n"+content.strip()))
+
+            emi_empty_flag = 0
+            status = 0
+    
         elif status == 3: # water intake
             if not isNum(text):
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text='格式錯誤，請重新輸入'))
