@@ -865,7 +865,7 @@ def handle_text_message(event):
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content.strip()))    
             status = 0
             
-          elif status == 23: # GHG emission record
+        elif status == 23: # GHG emission record
            
             print("status == 23")
             emi_empty_flag = 0
