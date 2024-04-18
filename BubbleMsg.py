@@ -327,8 +327,9 @@ def todaySport(resultList):
   )
   return bubble, totalTime
 
-def queryRecord():
-  bubble = BubbleContainer(
+def queryRecord(event):
+    user_id = event.source.user_id
+    bubble = BubbleContainer(
     direction='ltr',
     body=BoxComponent(
         layout='vertical',
@@ -342,6 +343,7 @@ def queryRecord():
                 layout = 'vertical',
                 spacing ='sm',
                 contents=[
+                    '''
                     ButtonComponent(
                         style='primary',
                         height='sm',
@@ -349,12 +351,13 @@ def queryRecord():
                         # action=PostbackAction(label='今日飲食', data='/today_diet')
                         action=URIAction(label='今日飲食',uri=config.FOOD_RECORD_SEARCH_LIFF_URI)
                     ),
+                    '''
                     ButtonComponent(
                         style='primary',
                         height='sm',
                         color='#2874A6', #dark blue
                         # action=PostbackAction(label='當週飲食', text='查詢當週飲食', data='/dietgraph')
-                        action=URIAction(label='飲食日誌',uri=config.FOOD_CALENDAR_LIFF_URI)
+                        action=URIAction(label='飲食日誌',uri='https://selab1.cs.nthu.edu.tw/inputfoodpage/'+user_id)
                     )
                 ]
             ),
