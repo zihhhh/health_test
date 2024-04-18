@@ -343,15 +343,15 @@ def queryRecord(event):
                 layout = 'vertical',
                 spacing ='sm',
                 contents=[
-                    '''
-                    ButtonComponent(
-                        style='primary',
-                        height='sm',
-                        color='#239B56', #dark green
+                    
+                    #ButtonComponent(
+                        #style='primary',
+                        #height='sm',
+                        #color='#239B56', #dark green
                         # action=PostbackAction(label='今日飲食', data='/today_diet')
-                        action=URIAction(label='今日飲食',uri=config.FOOD_RECORD_SEARCH_LIFF_URI)
-                    ),
-                    '''
+                        #action=URIAction(label='今日飲食',uri=config.FOOD_RECORD_SEARCH_LIFF_URI)
+                    #),
+                   
                     ButtonComponent(
                         style='primary',
                         height='sm',
