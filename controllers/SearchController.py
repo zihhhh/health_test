@@ -269,5 +269,5 @@ class SearchController():
     @staticmethod
     def bubbleMsg(event):
         messages = []
-        messages.append(FlexSendMessage(alt_text="query_record", contents=BubbleMsg.queryRecord()))
+        messages.append(FlexSendMessage(alt_text="query_record", contents=BubbleMsg.queryRecord(event)))
         line_bot_api.reply_message(event.reply_token, messages)
