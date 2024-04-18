@@ -381,6 +381,7 @@ def queryRecord(event):
                     )
                 ]
             ),
+            '''
             SeparatorComponent(),
             TextComponent(text='熱量', weight='bold', size='xl'),
             BoxComponent(
@@ -395,6 +396,7 @@ def queryRecord(event):
                     )
                 ]
             ),
+            '''
             SeparatorComponent(),
             TextComponent(text='飲水量', weight='bold', size='xl'),
             BoxComponent(
