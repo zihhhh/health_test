@@ -439,7 +439,7 @@ def queryRecord(event):
             TextComponent(text='體溫', weight='bold', size='xl'),
             BoxComponent(
                 layout = 'vertical',
-                spacing ='sm',
+                spacing ='sm',https://github.com/zihhhh/health_test/blob/main/BubbleMsg.py
                 contents=[
                     ButtonComponent(
                         style='primary',
@@ -459,7 +459,7 @@ def queryRecord(event):
         ]
     )
   )
-  return bubble
+    return bubble
 
 def recordOverview(userInfoList, userDiseaseList, userBPList, userTemperatureList, calorieSum, waterSum, sportTime):
   userGender = ''
