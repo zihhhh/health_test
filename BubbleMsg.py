@@ -439,7 +439,7 @@ def queryRecord(event):
             TextComponent(text='體溫', weight='bold', size='xl'),
             BoxComponent(
                 layout = 'vertical',
-                spacing ='sm',https://github.com/zihhhh/health_test/blob/main/BubbleMsg.py
+                spacing ='sm',
                 contents=[
                     ButtonComponent(
                         style='primary',
