@@ -381,22 +381,20 @@ def queryRecord(event):
                     )
                 ]
             ),
-            '''
-            SeparatorComponent(),
-            TextComponent(text='熱量', weight='bold', size='xl'),
-            BoxComponent(
-                layout = 'vertical',
-                spacing ='sm',
-                contents=[
-                    ButtonComponent(
-                      style='primary',
-                      height='sm',
-                      color='#2874A6', #dark blue
-                      action=PostbackAction(label='當週熱量', text='查詢當週熱量', data='/caloriegraph')
-                    )
-                ]
-            ),
-            '''
+            
+            #SeparatorComponent(),
+            #TextComponent(text='熱量', weight='bold', size='xl'),
+            #BoxComponent(
+                #layout = 'vertical',
+               # spacing ='sm',
+                #contents=[
+                 #   ButtonComponent(
+                  #    style='primary',
+                   #   height='sm',
+                    #  color='#2874A6', #dark blue
+                     # action=PostbackAction(label='當週熱量', text='查詢當週熱量', data='/caloriegraph')
+                    #)]),
+           
             SeparatorComponent(),
             TextComponent(text='飲水量', weight='bold', size='xl'),
             BoxComponent(
