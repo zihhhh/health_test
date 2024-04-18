@@ -357,7 +357,7 @@ def queryRecord(event):
                         height='sm',
                         color='#2874A6', #dark blue
                         # action=PostbackAction(label='當週飲食', text='查詢當週飲食', data='/dietgraph')
-                        action=URIAction(label='飲食日誌',uri='https://selab1.cs.nthu.edu.tw/inputfoodpage/'+user_id)
+                        action=URIAction(label='飲食日誌',uri='https://selab1.cs.nthu.edu.tw/food-record-web/'+user_id)
                     )
                 ]
             ),
