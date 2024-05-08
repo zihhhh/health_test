@@ -476,20 +476,15 @@ def handle_text_message(event):
                         style='primary',
                         height='sm',
                         color='#2874A6',  # dark green
-                        action=MessageAction(label='幸福小黃', text='幸福小黃')
-                    ),
-                    ButtonComponent(
-                        style='primary',
-                        height='sm',
-                        color='#239B56',  # dark green
                         action=MessageAction(label='復康巴士', text='復康巴士')
                     ),
                     ButtonComponent(
                         style='primary',
                         height='sm',
-                        color='#2874A6',  # dark green
-                        action=MessageAction(label='長照交通接送車', text='長照交通接送車')
+                        color='#239B56',  # dark green
+                       action=MessageAction(label='長照交通接送車', text='長照交通接送車')
                     ),
+                   
                 ]
             )
 
