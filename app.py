@@ -440,6 +440,16 @@ def handle_text_message(event):
         ])
         template_message = TemplateSendMessage(alt_text='Buttons alt text', template=buttons_template)
         line_bot_api.reply_message(event.reply_token, template_message)
+    elif text == '叫車服務': 
+        buttons_template = ButtonsTemplate(title='叫車服務', text='settings', actions=[
+            MessageAction(label='幸福小黃', text='幸福小黃'),
+            MessageAction(label='幸福巴士', text='幸福巴士'),
+            MessageAction(label='計程車', text='計程車'),
+            MessageAction(label='復康巴士', text='復康巴士'),
+            MessageAction(label='長照交通接送車', text='長照交通接送車')
+        ])
+        template_message = TemplateSendMessage(alt_text='Buttons alt text', template=buttons_template)
+        line_bot_api.reply_message(event.reply_token, template_message)
     elif text == '新增血壓':
         line_bot_api.reply_message(event.reply_token, [
             TextSendMessage(text='請輸入收縮壓(mmHg)/舒張壓(mmHg)/脈搏(times/min)，範例如下:\n120/80/70'),
