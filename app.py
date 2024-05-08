@@ -498,8 +498,9 @@ def handle_text_message(event):
 )
 
         
-        template_message = TemplateSendMessage(alt_text='叫車服務', template=bubble)
-        line_bot_api.reply_message(event.reply_token, template_message)
+        message = FlexSendMessage(alt_text = '叫車服務', contents = bubble)
+        line_bot_api.reply_message(event.reply_token, message)
+        
     elif text == '新增血壓':
         line_bot_api.reply_message(event.reply_token, [
             TextSendMessage(text='請輸入收縮壓(mmHg)/舒張壓(mmHg)/脈搏(times/min)，範例如下:\n120/80/70'),
