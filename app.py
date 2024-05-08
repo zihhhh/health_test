@@ -442,62 +442,61 @@ def handle_text_message(event):
         line_bot_api.reply_message(event.reply_token, template_message)
     elif text == '叫車服務': 
         bubble = BubbleContainer(
-            direction='ltr',
-            body=BoxComponent(
+    direction='ltr',
+    body=BoxComponent(
+        layout='vertical',
+        spacing='sm',
+        contents=[
+            # title
+            TextComponent(text='叫車服務', weight='bold', size='xl'),
+            SeparatorComponent(),
+            BoxComponent(
                 layout='vertical',
                 spacing='sm',
                 contents=[
-                    # title
-                    TextComponent(text='叫車服務', weight='bold', size='xl'),
-                    SeparatorComponent(),
-                    BoxComponent(
-                        layout = 'vertical',
-                        spacing ='sm',
-                        contents=[
-                            
-                            ButtonComponent(
-                                style='primary',
-                                height='sm',
-                                color='#239B56', #dark green
-                                action=MessageAction(label='幸福小黃', text='幸福小黃')
-                            ),
-                           
-                            ButtonComponent(
-                                style='primary',
-                                height='sm',
-                                color='#2874A6', #dark blue
-                                MessageAction(label='幸福巴士', text='幸福巴士')
-                            ),
-                            ButtonComponent(
-                                style='primary',
-                                height='sm',
-                                color='#239B56', #dark green
-                                action=MessageAction(label='計程車', text='計程車')
-                            ),
-                            ButtonComponent(
-                                style='primary',
-                                height='sm',
-                                color='#239B56', #dark green
-                                action=MessageAction(label='幸福小黃', text='幸福小黃')
-                            ),
-                            ButtonComponent(
-                                style='primary',
-                                height='sm',
-                                color='#239B56', #dark green
-                                action=MessageAction(label='復康巴士', text='復康巴士')
-                            ),
-                            ButtonComponent(
-                                style='primary',
-                                height='sm',
-                                color='#239B56', #dark green
-                                action= MessageAction(label='長照交通接送車', text='長照交通接送車')
-                            ),
-                        ]
-                    )
-        
+                    ButtonComponent(
+                        style='primary',
+                        height='sm',
+                        color='#239B56',  # dark green
+                        action=MessageAction(label='幸福小黃', text='幸福小黃')
+                    ),
+                    ButtonComponent(
+                        style='primary',
+                        height='sm',
+                        color='#2874A6',  # dark blue
+                        action=MessageAction(label='幸福巴士', text='幸福巴士')
+                    ),
+                    ButtonComponent(
+                        style='primary',
+                        height='sm',
+                        color='#239B56',  # dark green
+                        action=MessageAction(label='計程車', text='計程車')
+                    ),
+                    ButtonComponent(
+                        style='primary',
+                        height='sm',
+                        color='#239B56',  # dark green
+                        action=MessageAction(label='幸福小黃', text='幸福小黃')
+                    ),
+                    ButtonComponent(
+                        style='primary',
+                        height='sm',
+                        color='#239B56',  # dark green
+                        action=MessageAction(label='復康巴士', text='復康巴士')
+                    ),
+                    ButtonComponent(
+                        style='primary',
+                        height='sm',
+                        color='#239B56',  # dark green
+                        action=MessageAction(label='長照交通接送車', text='長照交通接送車')
+                    ),
                 ]
             )
-      )
+
+        ]
+    )
+)
+
         
         template_message = TemplateSendMessage(alt_text='叫車服務', template=bubble)
         line_bot_api.reply_message(event.reply_token, template_message)
