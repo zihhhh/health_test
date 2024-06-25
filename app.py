@@ -838,7 +838,7 @@ def handle_text_message(event):
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text='格式錯誤，請重新輸入'))
         #新功能
         elif status == 20:    
-            print("哈")
+            
             data = {'lineID' : event.source.user_id}
             response = requests.post(config.PHP_SERVER+'mhealth/disease/queryUserDisease.php', data = data)
             userDiseaseList = {item['disease'] for item in json.loads(response.text)}
@@ -871,7 +871,7 @@ def handle_text_message(event):
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content.strip()))
             status = 0
         elif status == 21:    
-            print("哈")
+            
             data = {'lineID' : event.source.user_id}
             response = requests.post(config.PHP_SERVER+'mhealth/disease/queryUserDisease.php', data = data)
             userDiseaseList = {item['disease'] for item in json.loads(response.text)}
@@ -1354,7 +1354,7 @@ def handle_content_message(event):
         print("轉換後:"+foodRecognitionURI)
         conflicts = utility.foodConflict(transTW)
         messages = []
-        print("哈:"+foodRecognitionURI) 
+        print(foodRecognitionURI) 
         
         buttons_template = TemplateSendMessage(
         alt_text='Buttons Template',
@@ -1370,11 +1370,11 @@ def handle_content_message(event):
                 ]
             )
         )
-        print("哈哈哈2")
+        
         messages.append(buttons_template)
         print(messages[0])
         line_bot_api.reply_message(event.reply_token, messages)
-        print("哈哈哈3")
+        
         
         if len(conflicts) != 0:
             messages.append(TextSendMessage(text='餐點中含有食物相剋:'+ utility.foodsMessage(conflicts)))
@@ -1774,7 +1774,6 @@ def handle_postback(event):
             print(response.text)
             
             ttt= str("收縮壓："+sbp+"、"+"舒張壓："+dbp+"、"+"脈搏"+pulse)
-            print("哈")
             print(ttt)
             data2 = {'lineID' : event.source.user_id}
             response = requests.post(config.PHP_SERVER+'mhealth/disease/queryUserDisease.php', data = data2)
