@@ -364,7 +364,12 @@ def handle_text_message(event):
             TextSendMessage(text='以下為可輸入的食材名稱\n<<====澱粉、醣類====>>\n米飯\n小麥\n大麥\n麥片\n玉米\n馬鈴薯\n木薯\n甜菜糖\n蔗糖\n<<=====蛋白質類=====>>\n牛肉\n豬肉\n羊肉\n禽肉\n養殖魚\n養殖蝦\n蛋\n起司\n豆腐\n花生\n豌豆\n其他豆類\n<<======蔬菜類======>>\n高麗菜\n番茄\n洋蔥、韭菜\n其他蔬菜\n<<======水果類======>>\n蘋果\n香蕉\n莓果、葡萄\n柑橘類水果\n其他水果\n<<=======飲品=======>>\n咖啡\n牛奶\n豆漿\n葡萄酒\n<<=======其他=======>>\n黑巧克力\n堅果')
         ])    
         status = 23  
-
+        
+    elif text =="飲食水足跡計算":
+        line_bot_api.reply_message(event.reply_token, [
+            TextSendMessage(text='請輸入您今日食用的食物以及飲水量 (如:培根蛋餅、牛肉麵、排骨便當)：') 
+        status = 24 
+        
     elif text =="空氣品質查詢":
         message = TextSendMessage(
                 text='點選定位並分享位置訊息以獲取空氣品質資訊',
@@ -984,7 +989,27 @@ def handle_text_message(event):
 
             emi_empty_flag = 0
             status = 0
+                          
+        elif status == 24:     #水足跡      
+            prompt='你是一位專門計算水足跡的助理，根據以下用戶的當日飲食狀況及飲水量，估算用戶的每日水足跡，並提供節水建議。請直接提供每種食物的總水足跡，不用細分每種食物的組成。限200字以內，並使用繁體中文回答'
+            print(prompt)
     
+            messages = [
+                #賦予人設
+                {'role': 'system', 'content': prompt}, 
+                
+                #提出問題
+                {'role': 'user','content': event.message.text}
+                ]
+            response = openai.ChatCompletion.create(
+            model="gpt-4-turbo-preview",
+            #max_tokens=128,
+            temperature=0.5,
+            messages=messages)
+            content = response['choices'][0]['message']['content']
+            line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content.strip()))
+            status = 0
+                  
         elif status == 3: # water intake
             if not isNum(text):
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text='格式錯誤，請重新輸入'))
