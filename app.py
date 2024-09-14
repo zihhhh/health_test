@@ -368,6 +368,7 @@ def handle_text_message(event):
     elif text =="飲食水足跡計算":
         line_bot_api.reply_message(event.reply_token, [
             TextSendMessage(text='請輸入您今日食用的食物以及飲水量 (如:培根蛋餅、牛肉麵、排骨便當、飲水量2000公升)：') 
+            ])
         status = 24 
         
     elif text =="空氣品質查詢":
